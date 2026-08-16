@@ -1,8 +1,7 @@
 // =====================================
-//   THE FELIX PROTOCOL - MAIN JS
+//   FELIX PROTOCOL - MAIN JS
 //   Network & Cybersecurity Theme
 // =====================================
-
 // ---- Typed Text Effect ----
 const typedEl = document.getElementById('typed-text');
 const roles = [
@@ -101,7 +100,7 @@ if (aboutImg) {
   aboutImg.onerror = () => {
     aboutImg.style.display = 'none';
     const placeholder = document.createElement('div');
-    placeholder.style.cssText = `width:100%;aspect-ratio:1;background:linear-gradient(135deg,#7c3aed,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:6rem;`;
+    placeholder.style.cssText = `width:100%;aspect-ratio:1;background:linear-gradient(135deg,#22d3ee,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:6rem;`;
     placeholder.textContent = '🛡️';
     aboutImg.parentNode.insertBefore(placeholder, aboutImg);
   };
@@ -171,9 +170,9 @@ setTimeout(triggerGlitch, 3000);
       ctx.font = `${fontSize}px 'Courier New', monospace`;
       // Alternate purple and gold characters
       if (r < 0.1) {
-        ctx.fillStyle = '#f59e0b';
+        ctx.fillStyle = '#60a5fa';
       } else {
-        ctx.fillStyle = '#7c3aed';
+        ctx.fillStyle = '#22d3ee';
       }
       const char = chars[Math.floor(Math.random() * chars.length)];
       ctx.fillText(char, i * fontSize, drops[i] * fontSize);
@@ -205,13 +204,13 @@ setTimeout(triggerGlitch, 3000);
   const CONNECTION_DIST = 4.5;
   const nodes = [];
   const nodeVelocities = [];
-  const nodeColors = [0x9d5cf5, 0x7c3aed, 0xf59e0b, 0xff4444, 0x22c55e]; // purple, gold, red(threat), green(secure)
+  const nodeColors = [0x22d3ee, 0x0891b2, 0x3b82f6, 0xff4444, 0x22c55e]; // purple, gold, red(threat), green(secure)
   const nodeRoles  = []; // 0=normal,1=gateway,2=threat,3=secure
 
   for (let i = 0; i < NODE_COUNT; i++) {
     const role = Math.random() < 0.07 ? 2 : (Math.random() < 0.1 ? 3 : (Math.random() < 0.15 ? 1 : 0));
     nodeRoles.push(role);
-    const color = role === 2 ? 0xff4444 : role === 3 ? 0x22c55e : role === 1 ? 0xf59e0b : 0x9d5cf5;
+    const color = role === 2 ? 0xff4444 : role === 3 ? 0x22c55e : role === 1 ? 0x3b82f6 : 0x22d3ee;
     const size   = role === 1 ? 0.18 : role === 2 ? 0.13 : role === 3 ? 0.11 : 0.07 + Math.random() * 0.05;
 
     const geo = new THREE.SphereGeometry(size, 8, 8);
@@ -238,7 +237,7 @@ setTimeout(triggerGlitch, 3000);
     if (nodeRoles[i] === 1 || nodeRoles[i] === 2 || nodeRoles[i] === 3) {
       const ringGeo = new THREE.RingGeometry(0.25, 0.29, 32);
       const ringMat = new THREE.MeshBasicMaterial({
-        color: nodeRoles[i] === 2 ? 0xff4444 : nodeRoles[i] === 3 ? 0x22c55e : 0xf59e0b,
+        color: nodeRoles[i] === 2 ? 0xff4444 : nodeRoles[i] === 3 ? 0x22c55e : 0x3b82f6,
         transparent: true, opacity: 0.5, side: THREE.DoubleSide
       });
       const ring = new THREE.Mesh(ringGeo, ringMat);
@@ -249,7 +248,7 @@ setTimeout(triggerGlitch, 3000);
   });
 
   // ---- Edge Lines ----
-  const lineMat = new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.25 });
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x0891b2, transparent: true, opacity: 0.25 });
   const lineObjects = [];
 
   function buildEdges() {
@@ -277,7 +276,7 @@ setTimeout(triggerGlitch, 3000);
   const packetGeo = new THREE.SphereGeometry(0.05, 6, 6);
 
   for (let p = 0; p < PACKET_COUNT; p++) {
-    const color = Math.random() < 0.3 ? 0xfcd34d : 0xc084fc;
+    const color = Math.random() < 0.3 ? 0x60a5fa : 0xc084fc;
     const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 });
     const mesh = new THREE.Mesh(packetGeo, mat);
     scene.add(mesh);
@@ -411,7 +410,7 @@ setTimeout(triggerGlitch, 3000);
       const y = Math.floor(Math.random() * (H / GRID)) * GRID;
       const len = Math.floor(Math.random() * 5 + 2);
       const dir = Math.random() < 0.5 ? 'H' : 'V';
-      TRACES.push({ x, y, len, dir, progress: 0, speed: Math.random() * 0.012 + 0.005, color: Math.random() < 0.2 ? '#f59e0b' : '#7c3aed' });
+      TRACES.push({ x, y, len, dir, progress: 0, speed: Math.random() * 0.012 + 0.005, color: Math.random() < 0.2 ? '#60a5fa' : '#22d3ee' });
     }
   }
   generateTraces();
@@ -425,7 +424,7 @@ setTimeout(triggerGlitch, 3000);
     for (let x = GRID; x < W - GRID; x += GRID) {
       for (let y = GRID; y < H - GRID; y += GRID) {
         if (Math.random() < 0.3) {
-          DOTS.push({ x, y, pulse: Math.random() * Math.PI * 2, color: Math.random() < 0.15 ? '#f59e0b' : '#9d5cf5' });
+          DOTS.push({ x, y, pulse: Math.random() * Math.PI * 2, color: Math.random() < 0.15 ? '#60a5fa' : '#67e8f9' });
         }
       }
     }
@@ -461,7 +460,7 @@ setTimeout(triggerGlitch, 3000);
         tr.len = Math.floor(Math.random() * 5 + 2);
         tr.dir = Math.random() < 0.5 ? 'H' : 'V';
         tr.progress = 0;
-        tr.color = Math.random() < 0.2 ? '#f59e0b' : '#7c3aed';
+        tr.color = Math.random() < 0.2 ? '#3b82f6' : '#22d3ee';
       }
 
       // Glowing head
@@ -577,7 +576,7 @@ setTimeout(triggerGlitch, 3000);
       // Draw pulsing center dot
       ctx.beginPath();
       ctx.arc(src.x, src.y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = Math.random() < 0.05 ? '#f59e0b' : '#9d5cf5';
+      ctx.fillStyle = Math.random() < 0.05 ? '#3b82f6' : '#67e8f9';
       ctx.globalAlpha = 0.8;
       ctx.fill();
       ctx.globalAlpha = 1;
@@ -604,3 +603,280 @@ setTimeout(triggerGlitch, 3000);
     generateSources();
   });
 })();
+
+
+/* =========================================================
+   FELIX PROTOCOL SPLASH SCREEN
+   Enhanced Cinematic Loading
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const splash = document.getElementById("splash-screen");
+
+  if (!splash) return;
+
+  const progress = document.getElementById("loading-progress");
+  const percent = document.getElementById("loading-percent");
+  const message = document.getElementById("loading-message");
+
+  /*
+   * -----------------------------------------
+   * SETTINGS
+   * -----------------------------------------
+   */
+
+  const LOADING_DURATION = 5000; // 4.5 seconds
+  const READY_DELAY = 700;       // Show SYSTEM READY
+  const FADE_DURATION = 900;     // Splash fade-out
+
+
+  /*
+   * -----------------------------------------
+   * LOADING MESSAGES
+   * -----------------------------------------
+   */
+
+  const loadingMessages = [
+    {
+      progress: 0,
+      text: "INITIALIZING FELIX PROTOCOL..."
+    },
+    {
+      progress: 15,
+      text: "INITIALIZING NETWORK..."
+    },
+    {
+      progress: 35,
+      text: "LOADING SECURITY MODULES..."
+    },
+    {
+      progress: 55,
+      text: "ESTABLISHING SECURE CONNECTION..."
+    },
+    {
+      progress: 75,
+      text: "LOADING INTERFACE..."
+    },
+    {
+      progress: 90,
+      text: "VERIFYING SYSTEM..."
+    },
+    {
+      progress: 100,
+      text: "SYSTEM READY"
+    }
+  ];
+
+
+  /*
+   * -----------------------------------------
+   * STATE
+   * -----------------------------------------
+   */
+
+  let currentProgress = 0;
+  let animationFrame = null;
+  let startTime = null;
+
+
+  /*
+   * -----------------------------------------
+   * EASING
+   * Smooth cinematic acceleration/deceleration
+   * -----------------------------------------
+   */
+
+  function easeInOut(t) {
+
+    return t < 0.5
+      ? 2 * t * t
+      : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+  }
+
+
+  /*
+   * -----------------------------------------
+   * UPDATE LOADING UI
+   * -----------------------------------------
+   */
+
+  function updateProgress(value) {
+
+    currentProgress = value;
+
+    const roundedValue = Math.floor(value);
+
+
+    /*
+     * Loading bar
+     */
+
+    if (progress) {
+
+      progress.style.width = roundedValue + "%";
+
+    }
+
+
+    /*
+     * Percentage
+     */
+
+    if (percent) {
+
+      percent.textContent = roundedValue + "%";
+
+    }
+
+
+    /*
+     * Find correct loading message
+     */
+
+    let currentMessage = loadingMessages[0];
+
+    for (const item of loadingMessages) {
+
+      if (roundedValue >= item.progress) {
+
+        currentMessage = item;
+
+      }
+
+    }
+
+
+    /*
+     * Update message only when necessary
+     */
+
+    if (
+      message &&
+      message.textContent !== currentMessage.text
+    ) {
+
+      message.textContent = currentMessage.text;
+
+    }
+
+  }
+
+
+  /*
+   * -----------------------------------------
+   * SPLASH EXIT
+   * -----------------------------------------
+   */
+
+  function hideSplash() {
+
+    /*
+     * Add fade-out class
+     */
+
+    splash.classList.add("splash-hidden");
+
+
+    /*
+     * Completely remove splash
+     */
+
+    setTimeout(() => {
+
+      splash.style.display = "none";
+
+    }, FADE_DURATION);
+
+  }
+
+
+  /*
+   * -----------------------------------------
+   * LOADING ANIMATION
+   * -----------------------------------------
+   */
+
+  function animateLoading(currentTime) {
+
+    if (!startTime) {
+
+      startTime = currentTime;
+
+    }
+
+
+    const elapsed = currentTime - startTime;
+
+    let progressRatio =
+      Math.min(elapsed / LOADING_DURATION, 1);
+
+
+    /*
+     * Cinematic easing
+     */
+
+    const easedProgress =
+      easeInOut(progressRatio);
+
+
+    const value =
+      Math.min(easedProgress * 100, 100);
+
+
+    updateProgress(value);
+
+
+    /*
+     * Continue animation
+     */
+
+    if (progressRatio < 1) {
+
+      animationFrame =
+        requestAnimationFrame(animateLoading);
+
+      return;
+
+    }
+
+
+    /*
+     * Ensure exactly 100%
+     */
+
+    updateProgress(100);
+
+
+    /*
+     * SYSTEM READY pause
+     */
+
+    setTimeout(() => {
+
+      hideSplash();
+
+    }, READY_DELAY);
+
+  }
+
+
+  /*
+   * -----------------------------------------
+   * INITIAL STATE
+   * -----------------------------------------
+   */
+
+  updateProgress(0);
+
+
+  /*
+   * Start animation
+   */
+
+  animationFrame =
+    requestAnimationFrame(animateLoading);
+
+
+});

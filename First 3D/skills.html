@@ -3,200 +3,337 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skill Radar & Matrix | The Felix Protocol</title>
-  <meta name="description" content="Interactive 360° Skill Radar and Technical Arsenal Matrix for The Felix Protocol - Network Engineer, IT Specialist, and Aspiring Purple Team Cybersecurity Professional." />
+  <title>Skill Radar & Matrix | Felix Protocol</title>
+  <meta name="description" content="Interactive cybersecurity and network engineering skill radar for Felix Protocol." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <link rel="stylesheet" href="style.css" />
+
   <style>
-    /* Dedicated Radar Page Custom Styles */
+    DYNAMIC CYBERSECURITY RADAR PAGE
+  
+
     .radar-page-header {
-      padding-top: 8rem;
-      padding-bottom: 2rem;
+      padding: 8rem 0 2rem;
       text-align: center;
     }
 
     .radar-hud-wrapper {
+      position: relative;
+      padding: 2rem;
+      margin-bottom: 4rem;
+      overflow: hidden;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(124, 58, 237, 0.15);
-      margin-bottom: 4rem;
+      box-shadow: 0 20px 60px rgba(34, 211, 238, 0.1);
     }
 
     .radar-hud-wrapper::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      right: 0;
+      left: 0;
       height: 3px;
-      background: var(--gradient);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
     }
 
     .radar-hud-topbar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
       padding-bottom: 1.5rem;
       margin-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(124, 58, 237, 0.15);
       font-family: var(--font-accent);
       font-size: 0.9rem;
       color: var(--text-secondary);
+      border-bottom: 1px solid rgba(34, 211, 238, 0.15);
+    }
+
+    .radar-system-value {
+      color: var(--primary-light);
     }
 
     .radar-status-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      font-weight: 600;
+      color: #86efac;
       background: rgba(34, 197, 94, 0.1);
       border: 1px solid rgba(34, 197, 94, 0.3);
-      padding: 0.35rem 0.9rem;
-      border-radius: 99px;
-      color: #86efac;
-      font-weight: 600;
+      border-radius: 999px;
     }
 
     .radar-grid-layout {
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: minmax(0, 1fr) 360px;
       gap: 2rem;
       align-items: center;
     }
 
-    @media (max-width: 992px) {
-      .radar-grid-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
     .radar-canvas-container {
       position: relative;
-      width: 100%;
-      aspect-ratio: 1;
-      max-width: 580px;
-      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      aspect-ratio: 1;
     }
 
     #skills-radar-canvas {
+      display: block;
       width: 100%;
       height: 100%;
-      display: block;
       border-radius: 50%;
       cursor: crosshair;
+      touch-action: manipulation;
+    }
+
+    .radar-side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .radar-panel-heading {
+      margin-bottom: 0.25rem;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
 
     .radar-legend-panel {
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 0.7rem;
     }
 
     .legend-item {
-      background: rgba(18, 15, 34, 0.7);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 1rem 1.25rem;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: all var(--transition);
+      gap: 1rem;
+      padding: 0.9rem 1rem;
+      color: inherit;
+      text-align: left;
+      background: rgba(7, 17, 31, 0.78);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      transition: all var(--transition);
     }
 
-    .legend-item:hover, .legend-item.active {
-      border-color: var(--gold);
-      transform: translateX(6px);
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
-      background: rgba(124, 58, 237, 0.12);
+    .legend-item:hover,
+    .legend-item.active {
+      background: rgba(34, 211, 238, 0.09);
+      border-color: var(--primary);
+      box-shadow: 0 4px 20px rgba(34, 211, 238, 0.12);
+      transform: translateX(5px);
+    }
+
+    .legend-item:focus-visible {
+      outline: 3px solid var(--primary-light);
+      outline-offset: 3px;
     }
 
     .legend-item-info {
+      min-width: 0;
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
 
     .legend-item-icon {
+      flex-shrink: 0;
       font-size: 1.3rem;
     }
 
     .legend-item-title {
       font-family: var(--font-display);
-      font-size: 0.85rem;
+      font-size: 0.79rem;
       color: var(--text-primary);
     }
 
+    .legend-item-subtitle {
+      margin-top: 0.15rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
     .legend-item-score {
+      flex-shrink: 0;
       font-family: var(--font-display);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      color: var(--gold);
+      color: var(--primary-light);
+    }
+
+    /* Selected skill details */
+    .radar-detail-card {
+      position: relative;
+      padding: 1.25rem;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(34, 211, 238, 0.08), rgba(59, 130, 246, 0.04)),
+        var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .radar-detail-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .detail-code {
+      margin-bottom: 0.55rem;
+      font-family: var(--font-accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .detail-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .detail-title {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      color: var(--text-primary);
+    }
+
+    .detail-score {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--primary-light);
+    }
+
+    .detail-description {
+      margin-bottom: 0.85rem;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .detail-progress {
+      height: 5px;
+      margin-bottom: 0.9rem;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+    }
+
+    .detail-progress-fill {
+      height: 100%;
+      width: 90%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: inherit;
+      transition: width 0.3s ease;
+    }
+
+    .detail-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .detail-tags span {
+      padding: 0.25rem 0.55rem;
+      font-family: var(--font-accent);
+      font-size: 0.7rem;
+      color: var(--primary-light);
+      background: rgba(34, 211, 238, 0.07);
+      border: 1px solid rgba(34, 211, 238, 0.16);
+      border-radius: 4px;
     }
 
     .radar-controls {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
       margin-top: 1.5rem;
-      flex-wrap: wrap;
     }
 
     .control-btn {
-      background: rgba(124, 58, 237, 0.15);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
       padding: 0.5rem 1.2rem;
-      border-radius: var(--radius-sm);
       font-family: var(--font-accent);
       font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
       cursor: pointer;
       transition: all var(--transition);
     }
 
-    .control-btn:hover, .control-btn.active {
+    .control-btn:hover,
+    .control-btn.active {
+      color: var(--bg);
       background: var(--primary);
       border-color: var(--primary);
-      color: white;
-      box-shadow: 0 0 15px var(--glow-purple);
+      box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
     }
 
-    /* Category Filter Tabs */
-    .filter-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
+    .control-btn:focus-visible,
+    .filter-tab:focus-visible {
+      outline: 3px solid var(--primary-light);
+      outline-offset: 3px;
     }
 
-    .filter-tab {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      padding: 0.6rem 1.4rem;
-      border-radius: 99px;
+    .tooltip-radar {
+      position: absolute;
+      z-index: 100;
+      display: none;
+      max-width: 230px;
+      padding: 0.65rem 0.85rem;
       font-family: var(--font-accent);
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all var(--transition);
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      pointer-events: none;
+      background: rgba(2, 6, 23, 0.96);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.22);
     }
 
-    .filter-tab:hover, .filter-tab.active {
-      background: linear-gradient(135deg, var(--primary), var(--gold));
-      border-color: transparent;
-      color: white;
-      box-shadow: 0 4px 20px var(--glow-purple);
+    .tooltip-radar strong {
+      color: var(--primary-light);
     }
 
-    /* Extended Skill Breakdown Cards */
+    .tooltip-score {
+      color: var(--primary-light);
+    }
+
+    .tooltip-tags {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    /* Detailed competencies */
     .competencies-stage {
       position: relative;
       isolation: isolate;
@@ -206,16 +343,44 @@
     #competencies-canvas {
       position: absolute;
       inset: 0;
+      z-index: 0;
       width: 100%;
       height: 100%;
+      opacity: 0.35;
       pointer-events: none;
-      opacity: 0.5;
-      z-index: 0;
     }
 
     .competencies-content {
       position: relative;
       z-index: 1;
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+    }
+
+    .filter-tab {
+      padding: 0.6rem 1.4rem;
+      font-family: var(--font-accent);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      box-shadow: 0 4px 20px rgba(34, 211, 238, 0.18);
     }
 
     .skills-extended-grid {
@@ -225,24 +390,25 @@
     }
 
     .skill-ext-card {
+      position: relative;
+      padding: 2rem;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 2rem;
       transition: all 0.4s ease;
-      position: relative;
     }
 
     .skill-ext-card:hover {
-      border-color: rgba(124, 58, 237, 0.6);
+      border-color: rgba(34, 211, 238, 0.55);
+      box-shadow: 0 20px 50px rgba(34, 211, 238, 0.1);
       transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(124, 58, 237, 0.15);
     }
 
     .skill-ext-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
       margin-bottom: 1rem;
     }
 
@@ -258,74 +424,123 @@
 
     .skill-ext-title {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--text-primary);
     }
 
     .skill-level-badge {
+      flex-shrink: 0;
+      padding: 0.25rem 0.75rem;
       font-family: var(--font-accent);
       font-size: 0.75rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
       font-weight: 700;
       letter-spacing: 0.05em;
+      border-radius: 4px;
     }
 
     .badge-expert {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: var(--gold-light);
+      color: var(--secondary-light);
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.35);
     }
 
     .badge-advanced {
-      background: rgba(124, 58, 237, 0.15);
-      border: 1px solid rgba(124, 58, 237, 0.4);
       color: var(--primary-light);
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.35);
     }
 
     .skill-ext-list {
-      list-style: none;
       margin: 1.25rem 0;
+      list-style: none;
     }
 
     .skill-ext-list li {
       position: relative;
       padding-left: 1.25rem;
+      margin-bottom: 0.5rem;
       font-size: 0.9rem;
       color: var(--text-secondary);
-      margin-bottom: 0.5rem;
     }
 
     .skill-ext-list li::before {
       content: '▹';
       position: absolute;
       left: 0;
-      color: var(--gold);
+      color: var(--primary);
     }
 
-    .tooltip-radar {
-      position: absolute;
-      background: rgba(13, 11, 24, 0.95);
-      border: 1px solid var(--gold);
-      padding: 0.6rem 1rem;
-      border-radius: 8px;
-      color: white;
-      font-family: var(--font-accent);
-      font-size: 0.85rem;
-      pointer-events: none;
-      z-index: 100;
-      display: none;
-      box-shadow: 0 0 20px var(--glow-gold);
+    @media (max-width: 992px) {
+      .radar-grid-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .radar-side-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+
+      .radar-panel-heading {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .radar-hud-wrapper {
+        padding: 1.25rem;
+      }
+
+      .radar-hud-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .radar-side-panel {
+        display: flex;
+      }
+
+      .skills-extended-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .radar-hud-wrapper {
+        padding: 0.8rem;
+      }
+
+      .legend-item {
+        padding: 0.75rem;
+      }
+
+      .skill-ext-card {
+        padding: 1.35rem;
+      }
+
+      .skill-ext-header {
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .legend-item,
+      .control-btn,
+      .filter-tab,
+      .skill-ext-card,
+      .detail-progress-fill {
+        transition: none;
+      }
     }
   </style>
 </head>
 <body>
-
   <!-- Navigation -->
   <nav id="navbar" class="scrolled">
-    <div class="nav-logo" onclick="window.location.href='index.html'">
+    <div class="nav-logo" onclick="window.location.href='index.html'" role="link" tabindex="0" aria-label="Go to home page">
       <span class="logo-bracket">[</span>FP<span class="logo-bracket">]</span>
     </div>
+
     <ul class="nav-links">
       <li><a href="index.html#hero" class="nav-link">Home</a></li>
       <li><a href="index.html#about" class="nav-link">About</a></li>
@@ -333,21 +548,24 @@
       <li><a href="index.html#projects" class="nav-link">Projects</a></li>
       <li><a href="index.html#contact" class="nav-link">Contact</a></li>
     </ul>
+
     <div class="nav-status">
       <span class="status-dot"></span>
       <span class="status-text">Available for hire</span>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
+
+    <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
-  <!-- Header Section -->
+  <!-- Page header -->
   <header class="radar-page-header">
     <div class="section-container">
       <span class="section-tag">// Technical Matrix & Threat Radar</span>
       <h1 class="section-title">Interactive <span class="gradient-text">Skill Radar</span></h1>
-      <p class="section-desc">Real-time 360° assessment of core technical proficiencies across Network Engineering, Purple Team Cybersecurity, IT Operations, and Customer Experience.</p>
+      <p class="section-desc">The rotating sweep scans each skill point. Select a point or a category to view its proficiency, description, and technical tools.</p>
+
       <div style="margin-top: 1.5rem;">
         <a href="index.html" class="btn btn-secondary">
           <span>← Back to Overview</span>
@@ -356,254 +574,259 @@
     </div>
   </header>
 
-  <!-- Radar HUD Container -->
   <main class="section-container">
-    <div class="radar-hud-wrapper">
+    <!-- Radar HUD -->
+    <section class="radar-hud-wrapper" aria-labelledby="radar-heading">
       <div class="radar-hud-topbar">
         <div>
-          <span>[SYSTEM STATUS: </span><span style="color: var(--gold);">SCANNING DOMAINS</span><span>]</span>
+          <span>[SYSTEM STATUS: </span><span class="radar-system-value">SCANNING SKILL NODES</span><span>]</span>
         </div>
+
         <div class="radar-status-badge">
           <span class="status-dot"></span>
           <span>RADAR ONLINE 360°</span>
         </div>
+
         <div>
-          <span>FREQUENCY: </span><span style="color: var(--primary-light);">5.8 GHz</span>
+          <span>FREQUENCY: </span><span class="radar-system-value">5.8 GHz</span>
         </div>
       </div>
+
+      <h2 id="radar-heading" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">Interactive skill radar</h2>
 
       <div class="radar-grid-layout">
-        <!-- Canvas Visualizer -->
+        <!-- Canvas radar -->
         <div class="radar-canvas-container">
-          <canvas id="skills-radar-canvas" width="680" height="680"></canvas>
-          <div id="radar-tooltip" class="tooltip-radar"></div>
+          <canvas
+            id="skills-radar-canvas"
+            width="680"
+            height="680"
+            role="img"
+            aria-label="Interactive radar with five selectable skill points"
+          ></canvas>
+          <div id="radar-tooltip" class="tooltip-radar" role="status" aria-live="polite"></div>
         </div>
 
-        <!-- Radar Legend & Quick Select -->
-        <div class="radar-legend-panel">
-          <h3 style="font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">
-            // Core Proficiency Vectors
-          </h3>
+        <!-- Skill selection and details -->
+        <aside class="radar-side-panel" aria-label="Radar skill details">
+          <h3 class="radar-panel-heading">// Select a skill node</h3>
 
-          <div class="legend-item active" data-domain="0">
-            <div class="legend-item-info">
-              <span class="legend-item-icon">🌐</span>
-              <div>
-                <div class="legend-item-title">Network Engineering</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">Routing, Switches, BGP</div>
-              </div>
-            </div>
-            <div class="legend-item-score">90%</div>
+          <div class="radar-legend-panel" id="radar-legend">
+            <button class="legend-item active" type="button" data-domain="0">
+              <span class="legend-item-info">
+                <span class="legend-item-icon">🌐</span>
+                <span>
+                  <span class="legend-item-title">Network Engineering</span>
+                  <span class="legend-item-subtitle">Routing, switches, BGP</span>
+                </span>
+              </span>
+              <span class="legend-item-score">90%</span>
+            </button>
+
+            <button class="legend-item" type="button" data-domain="1">
+              <span class="legend-item-info">
+                <span class="legend-item-icon">🛡️</span>
+                <span>
+                  <span class="legend-item-title">Cybersecurity</span>
+                  <span class="legend-item-subtitle">Purple team, SIEM, threat hunt</span>
+                </span>
+              </span>
+              <span class="legend-item-score">80%</span>
+            </button>
+
+            <button class="legend-item" type="button" data-domain="2">
+              <span class="legend-item-info">
+                <span class="legend-item-icon">💻</span>
+                <span>
+                  <span class="legend-item-title">IT Operations</span>
+                  <span class="legend-item-subtitle">Active Directory, sysadmin</span>
+                </span>
+              </span>
+              <span class="legend-item-score">88%</span>
+            </button>
+
+            <button class="legend-item" type="button" data-domain="3">
+              <span class="legend-item-info">
+                <span class="legend-item-icon">🤝</span>
+                <span>
+                  <span class="legend-item-title">Customer Experience</span>
+                  <span class="legend-item-subtitle">ITIL, SLA, technical support</span>
+                </span>
+              </span>
+              <span class="legend-item-score">92%</span>
+            </button>
+
+            <button class="legend-item" type="button" data-domain="4">
+              <span class="legend-item-info">
+                <span class="legend-item-icon">🔍</span>
+                <span>
+                  <span class="legend-item-title">Threat Intelligence</span>
+                  <span class="legend-item-subtitle">OSINT, CVE, vulnerability</span>
+                </span>
+              </span>
+              <span class="legend-item-score">75%</span>
+            </button>
           </div>
 
-          <div class="legend-item" data-domain="1">
-            <div class="legend-item-info">
-              <span class="legend-item-icon">🛡️</span>
-              <div>
-                <div class="legend-item-title">Cybersecurity (Purple Team)</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">Pentesting, SIEM, Threat Hunt</div>
-              </div>
+          <article class="radar-detail-card" id="radar-detail" aria-live="polite">
+            <div class="detail-code" id="detail-code">NODE_01 // SELECTED</div>
+            <div class="detail-title-row">
+              <h3 class="detail-title" id="detail-title">🌐 Network Engineering</h3>
+              <strong class="detail-score" id="detail-score">90%</strong>
             </div>
-            <div class="legend-item-score">80%</div>
-          </div>
-
-          <div class="legend-item" data-domain="2">
-            <div class="legend-item-info">
-              <span class="legend-item-icon">💻</span>
-              <div>
-                <div class="legend-item-title">IT Operations</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">Active Directory, SysAdmin</div>
-              </div>
+            <p class="detail-description" id="detail-description"></p>
+            <div class="detail-progress" aria-hidden="true">
+              <div class="detail-progress-fill" id="detail-progress-fill"></div>
             </div>
-            <div class="legend-item-score">88%</div>
-          </div>
-
-          <div class="legend-item" data-domain="3">
-            <div class="legend-item-info">
-              <span class="legend-item-icon">🤝</span>
-              <div>
-                <div class="legend-item-title">Customer Experience</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">ITIL, SLA, Tech Support</div>
-              </div>
-            </div>
-            <div class="legend-item-score">92%</div>
-          </div>
-
-          <div class="legend-item" data-domain="4">
-            <div class="legend-item-info">
-              <span class="legend-item-icon">🔍</span>
-              <div>
-                <div class="legend-item-title">Threat Intelligence</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">OSINT, CVE, Vulnerability</div>
-              </div>
-            </div>
-            <div class="legend-item-score">75%</div>
-          </div>
-        </div>
+            <div class="detail-tags" id="detail-tags"></div>
+          </article>
+        </aside>
       </div>
 
-      <!-- Controls -->
-      <div class="radar-controls">
-        <button class="control-btn active" id="btn-sweep-normal">Normal Sweep</button>
-        <button class="control-btn" id="btn-sweep-fast">Hyper Scan ⚡</button>
-        <button class="control-btn" id="btn-toggle-grid">Grid Overlay</button>
-        <button class="control-btn" id="btn-reset-view">Reset View</button>
+      <div class="radar-controls" aria-label="Radar controls">
+        <button class="control-btn active" type="button" id="btn-sweep-normal">Normal Sweep</button>
+        <button class="control-btn" type="button" id="btn-sweep-fast">Hyper Scan ⚡</button>
+        <button class="control-btn active" type="button" id="btn-toggle-grid">Grid Overlay</button>
+        <button class="control-btn" type="button" id="btn-reset-view">Reset Selection</button>
       </div>
-    </div>
+    </section>
 
-    <!-- Category Filter Tabs -->
-    <div class="competencies-stage">
+    <!-- Detailed competencies -->
+    <section class="competencies-stage" aria-labelledby="competencies-heading">
       <canvas id="competencies-canvas"></canvas>
+
       <div class="competencies-content">
         <div class="section-header" style="margin-bottom: 2rem;">
-      <span class="section-tag">// Comprehensive Arsenal Breakdown</span>
-      <h2 class="section-title">Detailed <span class="gradient-text">Competencies</span></h2>
-    </div>
+          <span class="section-tag">// Comprehensive Arsenal Breakdown</span>
+          <h2 class="section-title" id="competencies-heading">Detailed <span class="gradient-text">Competencies</span></h2>
+        </div>
 
-    <div class="filter-tabs">
-      <button class="filter-tab active" data-filter="all">All Domains</button>
-      <button class="filter-tab" data-filter="network">Network Engineering</button>
-      <button class="filter-tab" data-filter="cyber">Cybersecurity</button>
-      <button class="filter-tab" data-filter="it">IT Operations</button>
-      <button class="filter-tab" data-filter="cx">Customer Experience</button>
-      <button class="filter-tab" data-filter="threat">Threat Intelligence</button>
-    </div>
+        <div class="filter-tabs" role="group" aria-label="Filter skill categories">
+          <button class="filter-tab active" type="button" data-filter="all">All Domains</button>
+          <button class="filter-tab" type="button" data-filter="network">Network Engineering</button>
+          <button class="filter-tab" type="button" data-filter="cyber">Cybersecurity</button>
+          <button class="filter-tab" type="button" data-filter="it">IT Operations</button>
+          <button class="filter-tab" type="button" data-filter="cx">Customer Experience</button>
+          <button class="filter-tab" type="button" data-filter="threat">Threat Intelligence</button>
+        </div>
 
-    <!-- Extended Skill Cards Grid -->
-    <div class="skills-extended-grid" id="skills-grid">
-
-      <!-- Network Engineering -->
-      <div class="skill-ext-card" data-cat="network">
-        <div class="skill-ext-header">
-          <div class="skill-ext-icon-title">
-            <span class="skill-ext-icon">🌐</span>
-            <div>
-              <h3 class="skill-ext-title">Enterprise Networking</h3>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Infrastructure & Routing</span>
+        <div class="skills-extended-grid" id="skills-grid">
+          <article class="skill-ext-card" data-cat="network">
+            <div class="skill-ext-header">
+              <div class="skill-ext-icon-title">
+                <span class="skill-ext-icon">🌐</span>
+                <div>
+                  <h3 class="skill-ext-title">Enterprise Networking</h3>
+                  <span style="font-size:0.8rem;color:var(--text-muted);">Infrastructure & Routing</span>
+                </div>
+              </div>
+              <span class="skill-level-badge badge-expert">90% EXPERT</span>
             </div>
-          </div>
-          <span class="skill-level-badge badge-expert">90% EXPERT</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" style="width: 90%;"></div></div>
-        <ul class="skill-ext-list">
-          <li>WAN / LAN architecture design & protocol optimization</li>
-          <li>BGP, OSPF, EIGRP routing topology implementation</li>
-          <li>Switching, VLAN segmentation & Spanning Tree Protocol (STP)</li>
-          <li>Next-Gen Firewall configuration (Fortinet, Cisco ASA)</li>
-        </ul>
-        <div class="skill-tags">
-          <span>Cisco CCNA</span><span>Mikrotik</span><span>BGP</span><span>OSPF</span><span>VPN</span>
-        </div>
-      </div>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="width:90%;"></div></div>
+            <ul class="skill-ext-list">
+              <li>WAN/LAN architecture design and protocol optimization</li>
+              <li>BGP, OSPF, and EIGRP routing topology implementation</li>
+              <li>Switching, VLAN segmentation, and Spanning Tree Protocol</li>
+              <li>Next-generation firewall configuration</li>
+            </ul>
+            <div class="skill-tags"><span>Cisco</span><span>MikroTik</span><span>BGP</span><span>OSPF</span><span>VPN</span></div>
+          </article>
 
-      <!-- Cybersecurity & Purple Team -->
-      <div class="skill-ext-card" data-cat="cyber">
-        <div class="skill-ext-header">
-          <div class="skill-ext-icon-title">
-            <span class="skill-ext-icon">🛡️</span>
-            <div>
-              <h3 class="skill-ext-title">Purple Team Cybersecurity</h3>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Offensive & Defensive Ops</span>
+          <article class="skill-ext-card" data-cat="cyber">
+            <div class="skill-ext-header">
+              <div class="skill-ext-icon-title">
+                <span class="skill-ext-icon">🛡️</span>
+                <div>
+                  <h3 class="skill-ext-title">Purple Team Cybersecurity</h3>
+                  <span style="font-size:0.8rem;color:var(--text-muted);">Offensive & Defensive Operations</span>
+                </div>
+              </div>
+              <span class="skill-level-badge badge-advanced">80% ADVANCED</span>
             </div>
-          </div>
-          <span class="skill-level-badge badge-advanced">80% ADVANCED</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" style="width: 80%;"></div></div>
-        <ul class="skill-ext-list">
-          <li>SIEM log analysis & automated detection rules (Splunk, Elastic)</li>
-          <li>Simulated adversary attacks & red/blue team exercises</li>
-          <li>Packet inspection & network forensics using Wireshark</li>
-          <li>Vulnerability scanning, penetration testing & remediation</li>
-        </ul>
-        <div class="skill-tags">
-          <span>SIEM</span><span>Kali Linux</span><span>Wireshark</span><span>Metasploit</span><span>BurpSuite</span>
-        </div>
-      </div>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%;"></div></div>
+            <ul class="skill-ext-list">
+              <li>SIEM log analysis and automated detection rules</li>
+              <li>Simulated adversary attacks and purple-team exercises</li>
+              <li>Packet inspection and network forensics</li>
+              <li>Vulnerability scanning, penetration testing, and remediation</li>
+            </ul>
+            <div class="skill-tags"><span>SIEM</span><span>Kali Linux</span><span>Wireshark</span><span>Metasploit</span><span>Burp Suite</span></div>
+          </article>
 
-      <!-- IT Operations -->
-      <div class="skill-ext-card" data-cat="it">
-        <div class="skill-ext-header">
-          <div class="skill-ext-icon-title">
-            <span class="skill-ext-icon">💻</span>
-            <div>
-              <h3 class="skill-ext-title">IT Operations & Systems</h3>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Systems Administration</span>
+          <article class="skill-ext-card" data-cat="it">
+            <div class="skill-ext-header">
+              <div class="skill-ext-icon-title">
+                <span class="skill-ext-icon">💻</span>
+                <div>
+                  <h3 class="skill-ext-title">IT Operations & Systems</h3>
+                  <span style="font-size:0.8rem;color:var(--text-muted);">Systems Administration</span>
+                </div>
+              </div>
+              <span class="skill-level-badge badge-expert">88% EXPERT</span>
             </div>
-          </div>
-          <span class="skill-level-badge badge-expert">88% EXPERT</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" style="width: 88%;"></div></div>
-        <ul class="skill-ext-list">
-          <li>Active Directory, Group Policy (GPO) & domain management</li>
-          <li>Windows Server (2019/2022) & Enterprise Linux administration</li>
-          <li>Infrastructure lifecycle management & hardware troubleshooting</li>
-          <li>Automated provisioning & endpoint security enforcement</li>
-        </ul>
-        <div class="skill-tags">
-          <span>Active Directory</span><span>Windows Server</span><span>Linux</span><span>PowerShell</span>
-        </div>
-      </div>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%;"></div></div>
+            <ul class="skill-ext-list">
+              <li>Active Directory, Group Policy, and domain management</li>
+              <li>Windows Server and enterprise Linux administration</li>
+              <li>Infrastructure lifecycle and hardware troubleshooting</li>
+              <li>Automated provisioning and endpoint security</li>
+            </ul>
+            <div class="skill-tags"><span>Active Directory</span><span>Windows Server</span><span>Linux</span><span>PowerShell</span></div>
+          </article>
 
-      <!-- Customer Experience -->
-      <div class="skill-ext-card" data-cat="cx">
-        <div class="skill-ext-header">
-          <div class="skill-ext-icon-title">
-            <span class="skill-ext-icon">🤝</span>
-            <div>
-              <h3 class="skill-ext-title">Customer Experience (CX)</h3>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Service Delivery Excellence</span>
+          <article class="skill-ext-card" data-cat="cx">
+            <div class="skill-ext-header">
+              <div class="skill-ext-icon-title">
+                <span class="skill-ext-icon">🤝</span>
+                <div>
+                  <h3 class="skill-ext-title">Customer Experience</h3>
+                  <span style="font-size:0.8rem;color:var(--text-muted);">Service Delivery Excellence</span>
+                </div>
+              </div>
+              <span class="skill-level-badge badge-expert">92% MASTER</span>
             </div>
-          </div>
-          <span class="skill-level-badge badge-expert">92% MASTER</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" style="width: 92%;"></div></div>
-        <ul class="skill-ext-list">
-          <li>ITIL v4 Service Management & incident response SLA optimization</li>
-          <li>Technical support workflow redesign & client communication</li>
-          <li>Root-cause analysis (RCA) & user satisfaction tracking</li>
-          <li>Cross-functional technical leadership & stakeholder alignment</li>
-        </ul>
-        <div class="skill-tags">
-          <span>ITIL v4</span><span>ServiceNow</span><span>SLA Management</span><span>CRM</span>
-        </div>
-      </div>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="width:92%;"></div></div>
+            <ul class="skill-ext-list">
+              <li>ITIL service management and SLA optimization</li>
+              <li>Technical support workflow and client communication</li>
+              <li>Root-cause analysis and satisfaction tracking</li>
+              <li>Cross-functional leadership and stakeholder alignment</li>
+            </ul>
+            <div class="skill-tags"><span>ITIL v4</span><span>ServiceNow</span><span>SLA Management</span><span>CRM</span></div>
+          </article>
 
-      <!-- Threat Intelligence -->
-      <div class="skill-ext-card" data-cat="threat">
-        <div class="skill-ext-header">
-          <div class="skill-ext-icon-title">
-            <span class="skill-ext-icon">🔍</span>
-            <div>
-              <h3 class="skill-ext-title">Threat Intel & Analysis</h3>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">OSINT & Security Auditing</span>
+          <article class="skill-ext-card" data-cat="threat">
+            <div class="skill-ext-header">
+              <div class="skill-ext-icon-title">
+                <span class="skill-ext-icon">🔍</span>
+                <div>
+                  <h3 class="skill-ext-title">Threat Intelligence & Analysis</h3>
+                  <span style="font-size:0.8rem;color:var(--text-muted);">OSINT & Security Auditing</span>
+                </div>
+              </div>
+              <span class="skill-level-badge badge-advanced">75% ADVANCED</span>
             </div>
-          </div>
-          <span class="skill-level-badge badge-advanced">75% ADVANCED</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" style="width: 75%;"></div></div>
-        <ul class="skill-ext-list">
-          <li>MITRE ATT&CK matrix mapping for enterprise threat vectors</li>
-          <li>OSINT investigation & threat feed aggregation</li>
-          <li>CVE assessment, patch prioritization & security auditing</li>
-          <li>Malware triage & suspicious payload analysis</li>
-        </ul>
-        <div class="skill-tags">
-          <span>MITRE ATT&CK</span><span>OSINT</span><span>Nmap</span><span>CVE Audit</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%;"></div></div>
+            <ul class="skill-ext-list">
+              <li>MITRE ATT&CK mapping for enterprise threat vectors</li>
+              <li>OSINT investigation and threat-feed aggregation</li>
+              <li>CVE assessment, patch prioritization, and auditing</li>
+              <li>Malware triage and suspicious payload analysis</li>
+            </ul>
+            <div class="skill-tags"><span>MITRE ATT&CK</span><span>OSINT</span><span>Nmap</span><span>CVE Audit</span></div>
+          </article>
         </div>
       </div>
-
-      </div>
-    </div>
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer id="footer" style="margin-top: 6rem;">
+  <footer id="footer" style="margin-top:6rem;">
     <div class="footer-content">
       <div class="footer-logo">
         <span class="logo-bracket">[</span>FP<span class="logo-bracket">]</span>
         <span class="footer-tagline">The Felix Protocol</span>
       </div>
-      <p class="footer-copy">© 2026 The Felix Protocol. Designed with 💜 & ⚡.</p>
+      <p class="footer-copy">© 2026 The Felix Protocol. Cybersecurity & Network Engineering.</p>
       <div class="footer-links">
         <a href="index.html#hero">Home</a>
         <a href="index.html#about">About</a>
@@ -614,462 +837,626 @@
     </div>
   </footer>
 
-  <!-- Script for Radar Visualizer -->
   <script>
-    // ---- Hamburger Menu ----
+    // =====================================
+    // NAVIGATION
+    // =====================================
     const hamburger = document.getElementById('hamburger');
     const navList = document.querySelector('.nav-links');
-    if (hamburger) {
-      hamburger.addEventListener('click', () => navList.classList.toggle('open'));
+
+    if (hamburger && navList) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = navList.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      navList.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navList.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
     }
 
     // =====================================
-    //   DETAILED COMPETENCIES BACKGROUND
+    // DETAILED COMPETENCIES BACKGROUND
+    // Cyan and blue only
     // =====================================
     (function initDetailedCompetenciesCanvas() {
-      const canvas = document.getElementById('competencies-canvas');
-      if (!canvas) return;
+      const sourceCanvas = document.getElementById('competencies-canvas');
+      if (!sourceCanvas) return;
 
-      const parent = canvas.parentElement;
-      canvas.style.display = 'none';
+      const parent = sourceCanvas.parentElement;
+      sourceCanvas.style.display = 'none';
 
-      const c2d = document.createElement('canvas');
-      c2d.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.5;';
-      parent.appendChild(c2d);
+      const canvas = document.createElement('canvas');
+      canvas.setAttribute('aria-hidden', 'true');
+      canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.35;';
+      parent.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+      const traces = [];
+      const dots = [];
+      const grid = 60;
+      let animationId = null;
+      let time = 0;
 
       function resize() {
-        c2d.width = parent.offsetWidth;
-        c2d.height = parent.offsetHeight;
+        canvas.width = Math.max(1, parent.offsetWidth);
+        canvas.height = Math.max(1, parent.offsetHeight);
+        generateElements();
       }
-      resize();
-      window.addEventListener('resize', resize);
 
-      const ctx = c2d.getContext('2d');
-      const TRACES = [];
-      function generateTraces() {
-        TRACES.length = 0;
-        const W = c2d.width;
-        const H = c2d.height;
-        const GRID = 60;
-        for (let i = 0; i < 35; i++) {
-          const x = Math.floor(Math.random() * (W / GRID)) * GRID;
-          const y = Math.floor(Math.random() * (H / GRID)) * GRID;
-          const len = Math.floor(Math.random() * 5 + 2);
-          const dir = Math.random() < 0.5 ? 'H' : 'V';
-          TRACES.push({ x, y, len, dir, progress: 0, speed: Math.random() * 0.012 + 0.005, color: Math.random() < 0.2 ? '#f59e0b' : '#7c3aed' });
+      function generateElements() {
+        traces.length = 0;
+        dots.length = 0;
+
+        for (let i = 0; i < 30; i++) {
+          traces.push({
+            x: Math.floor(Math.random() * (canvas.width / grid)) * grid,
+            y: Math.floor(Math.random() * (canvas.height / grid)) * grid,
+            length: Math.floor(Math.random() * 5 + 2),
+            direction: Math.random() < 0.5 ? 'H' : 'V',
+            progress: Math.random(),
+            speed: Math.random() * 0.009 + 0.004,
+            color: Math.random() < 0.35 ? '#3b82f6' : '#22d3ee'
+          });
         }
-      }
-      generateTraces();
 
-      const DOTS = [];
-      function generateDots() {
-        DOTS.length = 0;
-        const W = c2d.width;
-        const H = c2d.height;
-        const GRID = 60;
-        for (let x = GRID; x < W - GRID; x += GRID) {
-          for (let y = GRID; y < H - GRID; y += GRID) {
-            if (Math.random() < 0.3) {
-              DOTS.push({ x, y, pulse: Math.random() * Math.PI * 2, color: Math.random() < 0.15 ? '#f59e0b' : '#9d5cf5' });
+        for (let x = grid; x < canvas.width - grid; x += grid) {
+          for (let y = grid; y < canvas.height - grid; y += grid) {
+            if (Math.random() < 0.24) {
+              dots.push({
+                x,
+                y,
+                phase: Math.random() * Math.PI * 2,
+                color: Math.random() < 0.35 ? '#60a5fa' : '#67e8f9'
+              });
             }
           }
         }
       }
-      generateDots();
 
-      let animT = 0;
-      function drawCircuit() {
-        ctx.clearRect(0, 0, c2d.width, c2d.height);
-        animT += 0.016;
-        const GRID = 60;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        time += 0.016;
 
-        TRACES.forEach(tr => {
-          tr.progress = Math.min(tr.progress + tr.speed, 1);
-          const endX = tr.dir === 'H' ? tr.x + tr.len * GRID : tr.x;
-          const endY = tr.dir === 'V' ? tr.y + tr.len * GRID : tr.y;
-          const cx = tr.x + (endX - tr.x) * tr.progress;
-          const cy = tr.y + (endY - tr.y) * tr.progress;
+        traces.forEach(trace => {
+          trace.progress = Math.min(trace.progress + trace.speed, 1);
+
+          const endX = trace.direction === 'H' ? trace.x + trace.length * grid : trace.x;
+          const endY = trace.direction === 'V' ? trace.y + trace.length * grid : trace.y;
+          const currentX = trace.x + (endX - trace.x) * trace.progress;
+          const currentY = trace.y + (endY - trace.y) * trace.progress;
 
           ctx.beginPath();
-          ctx.moveTo(tr.x, tr.y);
-          ctx.lineTo(cx, cy);
-          ctx.strokeStyle = tr.color;
-          ctx.lineWidth = 1.5;
-          ctx.globalAlpha = 0.35;
+          ctx.moveTo(trace.x, trace.y);
+          ctx.lineTo(currentX, currentY);
+          ctx.strokeStyle = trace.color;
+          ctx.globalAlpha = 0.28;
+          ctx.lineWidth = 1.2;
           ctx.stroke();
           ctx.globalAlpha = 1;
 
-          if (tr.progress >= 1) {
-            tr.x = Math.floor(Math.random() * (c2d.width / GRID)) * GRID;
-            tr.y = Math.floor(Math.random() * (c2d.height / GRID)) * GRID;
-            tr.len = Math.floor(Math.random() * 5 + 2);
-            tr.dir = Math.random() < 0.5 ? 'H' : 'V';
-            tr.progress = 0;
-            tr.color = Math.random() < 0.2 ? '#f59e0b' : '#7c3aed';
+          ctx.beginPath();
+          ctx.arc(currentX, currentY, 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = trace.color;
+          ctx.globalAlpha = 0.75;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+
+          if (trace.progress >= 1) {
+            trace.x = Math.floor(Math.random() * (canvas.width / grid)) * grid;
+            trace.y = Math.floor(Math.random() * (canvas.height / grid)) * grid;
+            trace.length = Math.floor(Math.random() * 5 + 2);
+            trace.direction = Math.random() < 0.5 ? 'H' : 'V';
+            trace.progress = 0;
+            trace.color = Math.random() < 0.35 ? '#3b82f6' : '#22d3ee';
           }
+        });
 
+        dots.forEach(dot => {
+          const pulse = 0.35 + Math.abs(Math.sin(time * 1.8 + dot.phase)) * 0.35;
           ctx.beginPath();
-          ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = tr.color;
-          ctx.globalAlpha = 0.9;
+          ctx.arc(dot.x, dot.y, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = dot.color;
+          ctx.globalAlpha = pulse;
           ctx.fill();
           ctx.globalAlpha = 1;
         });
 
-        DOTS.forEach(d => {
-          const pulse = 0.5 + Math.abs(Math.sin(animT * 2 + d.pulse)) * 0.5;
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = d.color;
-          ctx.globalAlpha = pulse * 0.6;
-          ctx.fill();
-          ctx.globalAlpha = 1;
-        });
-
-        requestAnimationFrame(drawCircuit);
+        animationId = requestAnimationFrame(draw);
       }
-      drawCircuit();
 
-      window.addEventListener('resize', () => {
-        resize();
-        generateTraces();
-        generateDots();
+      resize();
+      draw();
+
+      window.addEventListener('resize', resize);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && animationId) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        } else if (!document.hidden && !animationId) {
+          draw();
+        }
       });
     })();
 
     // =====================================
-    //   INTERACTIVE RADAR CANVAS ENGINE
+    // INTERACTIVE RADAR ENGINE
     // =====================================
-    const canvas = document.getElementById('skills-radar-canvas');
-    const ctx = canvas.getContext('2d');
-    const tooltip = document.getElementById('radar-tooltip');
+    const radarCanvas = document.getElementById('skills-radar-canvas');
+    const radarContext = radarCanvas.getContext('2d');
+    const radarTooltip = document.getElementById('radar-tooltip');
 
     const domains = [
-      { name: 'Network Engineering', score: 0.90, icon: '🌐', tags: 'BGP, OSPF, Cisco, Mikrotik' },
-      { name: 'Cybersecurity (Purple Team)', score: 0.80, icon: '🛡️', tags: 'SIEM, Wireshark, Metasploit' },
-      { name: 'IT Operations', score: 0.88, icon: '💻', tags: 'Active Directory, Linux, GPO' },
-      { name: 'Customer Experience', score: 0.92, icon: '🤝', tags: 'ITIL, SLA, ServiceNow' },
-      { name: 'Threat Intelligence', score: 0.75, icon: '🔍', tags: 'MITRE ATT&CK, OSINT, Nmap' }
+      {
+        name: 'Network Engineering',
+        score: 0.90,
+        icon: '🌐',
+        description: 'Designing, configuring, and troubleshooting secure LAN/WAN environments with resilient routing and segmented network architecture.',
+        tags: ['Cisco', 'MikroTik', 'BGP', 'OSPF', 'VLAN', 'Firewall']
+      },
+      {
+        name: 'Cybersecurity (Purple Team)',
+        score: 0.80,
+        icon: '🛡️',
+        description: 'Combining offensive testing with defensive monitoring, detection engineering, incident response, and purple-team collaboration.',
+        tags: ['SIEM', 'Kali Linux', 'Wireshark', 'Metasploit', 'IDS/IPS']
+      },
+      {
+        name: 'IT Operations',
+        score: 0.88,
+        icon: '💻',
+        description: 'Managing systems, user identities, endpoints, servers, and operational support across Windows and Linux environments.',
+        tags: ['Active Directory', 'Windows Server', 'Linux', 'Azure', 'PowerShell']
+      },
+      {
+        name: 'Customer Experience',
+        score: 0.92,
+        icon: '🤝',
+        description: 'Delivering clear technical support, improving service workflows, managing SLAs, and aligning solutions with customer needs.',
+        tags: ['ITIL v4', 'SLA', 'ServiceNow', 'CRM', 'RCA']
+      },
+      {
+        name: 'Threat Intelligence',
+        score: 0.75,
+        icon: '🔍',
+        description: 'Researching threats through OSINT, vulnerability analysis, CVE prioritization, attack mapping, and security auditing.',
+        tags: ['MITRE ATT&CK', 'OSINT', 'CVE', 'Nmap', 'Risk Analysis']
+      }
     ];
 
-    let sweepSpeed = 0.02;
-    let sweepAngle = 0;
+    radarCanvas.width = 680;
+    radarCanvas.height = 680;
+
+    const centerX = radarCanvas.width / 2;
+    const centerY = radarCanvas.height / 2;
+    const maxRadius = radarCanvas.width * 0.28;
+
+    let sweepSpeed = 0.018;
+    let sweepAngle = -Math.PI / 2;
     let hoveredDomain = -1;
-    let activeLegendIdx = 0;
+    let selectedDomain = 0;
+    let showGrid = true;
+    let radarAnimationId = null;
+    let lastFrameTime = performance.now();
+    const scanPulse = domains.map(() => 0);
 
-    canvas.width = 680;
-    canvas.height = 680;
-
-    const CENTER_X = canvas.width / 2;
-    const CENTER_Y = canvas.height / 2;
-    const MAX_RADIUS = canvas.width * 0.32;
-
-    function clamp(value, min, max) {
-      return Math.min(Math.max(value, min), max);
+    function normalizeAngle(angle) {
+      const fullCircle = Math.PI * 2;
+      return ((angle % fullCircle) + fullCircle) % fullCircle;
     }
 
-    // Convert polar coordinates to Cartesian
-    function getDomainCoords(idx, value = 1.0) {
-      const total = domains.length;
-      const angle = (idx / total) * Math.PI * 2 - Math.PI / 2; // start from top
-      const r = MAX_RADIUS * value;
+    function angularDistance(a, b) {
+      const fullCircle = Math.PI * 2;
+      const difference = Math.abs(normalizeAngle(a) - normalizeAngle(b));
+      return Math.min(difference, fullCircle - difference);
+    }
+
+    function getDomainCoords(index, value = 1) {
+      const angle = (index / domains.length) * Math.PI * 2 - Math.PI / 2;
+      const radius = maxRadius * value;
+
       return {
-        x: CENTER_X + Math.cos(angle) * r,
-        y: CENTER_Y + Math.sin(angle) * r,
+        x: centerX + Math.cos(angle) * radius,
+        y: centerY + Math.sin(angle) * radius,
         angle
       };
     }
 
-    function drawAxisLabel(text, x, y, align, options = {}) {
-      const padding = 16;
-      const maxWidth = options.maxWidth || 190;
-      const baseFontSize = options.fontSize || 13;
-      let fontSize = baseFontSize;
-      let displayText = text;
-      let metrics;
+    function drawAxisLabel(domain, index) {
+      const labelPosition = getDomainCoords(index, 1.23);
+      const angle = labelPosition.angle;
+      const horizontalDirection = Math.cos(angle);
+      const isActive = index === hoveredDomain || index === selectedDomain;
 
-      ctx.font = `600 ${fontSize}px Rajdhani, sans-serif`;
-      metrics = ctx.measureText(displayText);
-
-      while (metrics.width > maxWidth && fontSize > 10) {
-        fontSize -= 1;
-        ctx.font = `600 ${fontSize}px Rajdhani, sans-serif`;
-        metrics = ctx.measureText(displayText);
+      let alignment = 'center';
+      if (Math.abs(horizontalDirection) >= 0.25) {
+        alignment = horizontalDirection > 0 ? 'left' : 'right';
       }
 
-      while (metrics.width > maxWidth && displayText.length > 8) {
-        displayText = `${displayText.slice(0, -6)}…`;
-        ctx.font = `600 ${fontSize}px Rajdhani, sans-serif`;
-        metrics = ctx.measureText(displayText);
+      radarContext.fillStyle = isActive ? '#67e8f9' : '#cbd5e1';
+      radarContext.font = '600 13px Rajdhani, sans-serif';
+      radarContext.textAlign = alignment;
+      radarContext.textBaseline = 'middle';
+
+      let firstLine = `${domain.icon} ${domain.name}`;
+      let secondLine = '';
+
+      if (domain.name === 'Network Engineering') {
+        firstLine = '🌐 Network';
+        secondLine = 'Engineering';
+      } else if (domain.name.includes('Cybersecurity')) {
+        firstLine = '🛡️ Cybersecurity';
+        secondLine = '(Purple Team)';
+      } else if (domain.name === 'Customer Experience') {
+        firstLine = '🤝 Customer';
+        secondLine = 'Experience';
+      } else if (domain.name === 'Threat Intelligence') {
+        firstLine = '🔍 Threat';
+        secondLine = 'Intelligence';
       }
 
-      let drawX = x;
-      if (align === 'left') {
-        drawX = Math.min(x, canvas.width - padding - metrics.width);
-      } else if (align === 'right') {
-        drawX = Math.max(x, padding + metrics.width);
+      if (secondLine) {
+        radarContext.fillText(firstLine, labelPosition.x, labelPosition.y - 8);
+        radarContext.fillText(secondLine, labelPosition.x, labelPosition.y + 8);
       } else {
-        drawX = clamp(x, padding + metrics.width / 2, canvas.width - padding - metrics.width / 2);
+        radarContext.fillText(firstLine, labelPosition.x, labelPosition.y);
       }
-
-      const drawY = clamp(y, padding + fontSize / 2, canvas.height - padding - fontSize / 2);
-      ctx.textAlign = align;
-      ctx.textBaseline = 'middle';
-      ctx.fillText(displayText, drawX, drawY);
     }
 
-    function getLabelPlacement(idx, text) {
-      const total = domains.length;
-      const angle = (idx / total) * Math.PI * 2 - Math.PI / 2;
-      const cosAngle = Math.cos(angle);
-      const defaultAlign = Math.abs(cosAngle) < 0.25 ? 'center' : cosAngle > 0 ? 'left' : 'right';
+    function drawRadarBackground() {
+      const backgroundGradient = radarContext.createRadialGradient(
+        centerX,
+        centerY,
+        10,
+        centerX,
+        centerY,
+        maxRadius * 1.12
+      );
 
-      if (text.includes('Cybersecurity')) {
-        return {
-          x: CENTER_X + Math.cos(angle) * (MAX_RADIUS * 1.32),
-          y: CENTER_Y + Math.sin(angle) * (MAX_RADIUS * 1.24),
-          align: 'center',
-          maxWidth: 240,
-          fontSize: 12
-        };
-      }
+      backgroundGradient.addColorStop(0, 'rgba(34, 211, 238, 0.10)');
+      backgroundGradient.addColorStop(0.68, 'rgba(7, 17, 31, 0.96)');
+      backgroundGradient.addColorStop(1, 'rgba(2, 6, 23, 1)');
 
+      radarContext.beginPath();
+      radarContext.arc(centerX, centerY, maxRadius * 1.12, 0, Math.PI * 2);
+      radarContext.fillStyle = backgroundGradient;
+      radarContext.fill();
+    }
+
+    function drawGrid() {
+      if (!showGrid) return;
+
+      [0.2, 0.4, 0.6, 0.8, 1].forEach(level => {
+        radarContext.beginPath();
+        radarContext.arc(centerX, centerY, maxRadius * level, 0, Math.PI * 2);
+        radarContext.strokeStyle = level === 1
+          ? 'rgba(59, 130, 246, 0.42)'
+          : 'rgba(34, 211, 238, 0.18)';
+        radarContext.lineWidth = level === 1 ? 2 : 1;
+        radarContext.stroke();
+
+        radarContext.fillStyle = 'rgba(148, 163, 184, 0.42)';
+        radarContext.font = '10px Orbitron, monospace';
+        radarContext.textAlign = 'center';
+        radarContext.fillText(`${Math.round(level * 100)}%`, centerX, centerY - maxRadius * level + 12);
+      });
+
+      domains.forEach((domain, index) => {
+        const outer = getDomainCoords(index, 1);
+        radarContext.beginPath();
+        radarContext.moveTo(centerX, centerY);
+        radarContext.lineTo(outer.x, outer.y);
+        radarContext.strokeStyle = index === selectedDomain
+          ? 'rgba(34, 211, 238, 0.52)'
+          : 'rgba(34, 211, 238, 0.18)';
+        radarContext.lineWidth = index === selectedDomain ? 1.5 : 1;
+        radarContext.stroke();
+      });
+    }
+
+    function drawSkillArea() {
+      // A subtle fill helps show the proficiency footprint.
+      // There is intentionally NO polygon outline, so no yellow line appears.
+      radarContext.beginPath();
+
+      domains.forEach((domain, index) => {
+        const point = getDomainCoords(index, domain.score);
+        if (index === 0) radarContext.moveTo(point.x, point.y);
+        else radarContext.lineTo(point.x, point.y);
+      });
+
+      radarContext.closePath();
+
+      const areaGradient = radarContext.createRadialGradient(
+        centerX,
+        centerY,
+        10,
+        centerX,
+        centerY,
+        maxRadius
+      );
+      areaGradient.addColorStop(0, 'rgba(34, 211, 238, 0.16)');
+      areaGradient.addColorStop(1, 'rgba(59, 130, 246, 0.07)');
+
+      radarContext.fillStyle = areaGradient;
+      radarContext.fill();
+      // No stroke() call here.
+    }
+
+    function drawSweep() {
+      radarContext.save();
+
+      radarContext.beginPath();
+      radarContext.moveTo(centerX, centerY);
+      radarContext.arc(
+        centerX,
+        centerY,
+        maxRadius * 1.02,
+        sweepAngle - 0.5,
+        sweepAngle
+      );
+      radarContext.closePath();
+
+      const sweepGradient = radarContext.createLinearGradient(
+        centerX,
+        centerY,
+        centerX + Math.cos(sweepAngle) * maxRadius,
+        centerY + Math.sin(sweepAngle) * maxRadius
+      );
+      sweepGradient.addColorStop(0, 'rgba(34, 211, 238, 0)');
+      sweepGradient.addColorStop(0.7, 'rgba(34, 211, 238, 0.10)');
+      sweepGradient.addColorStop(1, 'rgba(34, 211, 238, 0.42)');
+
+      radarContext.fillStyle = sweepGradient;
+      radarContext.fill();
+
+      radarContext.beginPath();
+      radarContext.moveTo(centerX, centerY);
+      radarContext.lineTo(
+        centerX + Math.cos(sweepAngle) * maxRadius * 1.02,
+        centerY + Math.sin(sweepAngle) * maxRadius * 1.02
+      );
+      radarContext.strokeStyle = 'rgba(103, 232, 249, 0.75)';
+      radarContext.lineWidth = 1.5;
+      radarContext.shadowColor = '#22d3ee';
+      radarContext.shadowBlur = 8;
+      radarContext.stroke();
+      radarContext.shadowBlur = 0;
+
+      radarContext.restore();
+    }
+
+    function updateScanPulses(deltaMultiplier) {
+      domains.forEach((domain, index) => {
+        const nodeAngle = getDomainCoords(index, domain.score).angle;
+        const distance = angularDistance(sweepAngle, nodeAngle);
+
+        if (distance < 0.055) {
+          scanPulse[index] = 1;
+        } else {
+          scanPulse[index] = Math.max(0, scanPulse[index] - 0.025 * deltaMultiplier);
+        }
+      });
+    }
+
+    function drawSkillPoints() {
+      domains.forEach((domain, index) => {
+        const point = getDomainCoords(index, domain.score);
+        const isSelected = index === selectedDomain;
+        const isHovered = index === hoveredDomain;
+        const pulse = scanPulse[index];
+
+        if (pulse > 0) {
+          radarContext.beginPath();
+          radarContext.arc(point.x, point.y, 10 + (1 - pulse) * 25, 0, Math.PI * 2);
+          radarContext.strokeStyle = `rgba(34, 211, 238, ${pulse * 0.7})`;
+          radarContext.lineWidth = 2;
+          radarContext.stroke();
+        }
+
+        if (isSelected) {
+          radarContext.beginPath();
+          radarContext.arc(point.x, point.y, 13, 0, Math.PI * 2);
+          radarContext.strokeStyle = 'rgba(103, 232, 249, 0.62)';
+          radarContext.lineWidth = 2;
+          radarContext.stroke();
+        }
+
+        radarContext.beginPath();
+        radarContext.arc(point.x, point.y, isHovered || isSelected ? 8 : 6, 0, Math.PI * 2);
+        radarContext.fillStyle = isHovered || isSelected ? '#67e8f9' : '#60a5fa';
+        radarContext.shadowColor = '#22d3ee';
+        radarContext.shadowBlur = isHovered || isSelected ? 20 : 10;
+        radarContext.fill();
+        radarContext.shadowBlur = 0;
+
+        radarContext.beginPath();
+        radarContext.arc(point.x, point.y, 2.5, 0, Math.PI * 2);
+        radarContext.fillStyle = '#f8fafc';
+        radarContext.fill();
+      });
+    }
+
+    function drawRadarFrame(currentTime) {
+      const deltaMultiplier = Math.min((currentTime - lastFrameTime) / 16.67, 3);
+      lastFrameTime = currentTime;
+
+      radarContext.clearRect(0, 0, radarCanvas.width, radarCanvas.height);
+      drawRadarBackground();
+      drawGrid();
+      drawSkillArea();
+
+      domains.forEach(drawAxisLabel);
+
+      drawSweep();
+      updateScanPulses(deltaMultiplier);
+      drawSkillPoints();
+
+      sweepAngle += sweepSpeed * deltaMultiplier;
+      radarAnimationId = requestAnimationFrame(drawRadarFrame);
+    }
+
+    function getPointerPosition(event) {
+      const rect = radarCanvas.getBoundingClientRect();
       return {
-        x: CENTER_X + Math.cos(angle) * (MAX_RADIUS * 1.18),
-        y: CENTER_Y + Math.sin(angle) * (MAX_RADIUS * 1.18),
-        align: defaultAlign
+        x: (event.clientX - rect.left) * (radarCanvas.width / rect.width),
+        y: (event.clientY - rect.top) * (radarCanvas.height / rect.height),
+        cssX: event.clientX - rect.left,
+        cssY: event.clientY - rect.top
       };
     }
 
-    function drawRadarHUD() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function findDomainAtPosition(position, hitRadius = 24) {
+      let found = -1;
+      let closestDistance = Infinity;
 
-      // Background radial glow
-      const bgGrad = ctx.createRadialGradient(CENTER_X, CENTER_Y, 10, CENTER_X, CENTER_Y, MAX_RADIUS * 1.1);
-      bgGrad.addColorStop(0, 'rgba(124, 58, 237, 0.12)');
-      bgGrad.addColorStop(0.7, 'rgba(13, 11, 24, 0.9)');
-      bgGrad.addColorStop(1, 'rgba(5, 5, 8, 1)');
-      ctx.fillStyle = bgGrad;
-      ctx.beginPath();
-      ctx.arc(CENTER_X, CENTER_Y, MAX_RADIUS * 1.1, 0, Math.PI * 2);
-      ctx.fill();
+      domains.forEach((domain, index) => {
+        const point = getDomainCoords(index, domain.score);
+        const distance = Math.hypot(position.x - point.x, position.y - point.y);
 
-      // 1. Concentric Circles (20%, 40%, 60%, 80%, 100%)
-      const rings = [0.2, 0.4, 0.6, 0.8, 1.0];
-      rings.forEach(level => {
-        ctx.beginPath();
-        ctx.arc(CENTER_X, CENTER_Y, MAX_RADIUS * level, 0, Math.PI * 2);
-        ctx.strokeStyle = level === 1.0 ? 'rgba(245, 158, 11, 0.4)' : 'rgba(124, 58, 237, 0.2)';
-        ctx.lineWidth = level === 1.0 ? 2 : 1;
-        ctx.stroke();
-
-        // Level markings text
-        ctx.fillStyle = 'rgba(168, 158, 196, 0.4)';
-        ctx.font = '10px Orbitron, monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText(`${Math.round(level * 100)}%`, CENTER_X, CENTER_Y - MAX_RADIUS * level + 12);
-      });
-
-      // 2. Radial Axes Lines
-      domains.forEach((d, i) => {
-        const outer = getDomainCoords(i, 1.0);
-        ctx.beginPath();
-        ctx.moveTo(CENTER_X, CENTER_Y);
-        ctx.lineTo(outer.x, outer.y);
-        ctx.strokeStyle = 'rgba(124, 58, 237, 0.3)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // Axis Label Icons & Text (Dynamic alignment to prevent cutting off)
-        const labelPos = getLabelPlacement(i, `${d.icon} ${d.name}`);
-
-        ctx.fillStyle = (i === hoveredDomain || i === activeLegendIdx) ? '#f59e0b' : '#f8f7ff';
-        ctx.font = '600 13px Rajdhani, sans-serif';
-
-        drawAxisLabel(`${d.icon} ${d.name}`, labelPos.x, labelPos.y, labelPos.align, {
-          maxWidth: labelPos.maxWidth,
-          fontSize: labelPos.fontSize
-        });
-      });
-
-      // 3. Polygon Matrix Area (The Skill Web)
-      ctx.beginPath();
-      domains.forEach((d, i) => {
-        const p = getDomainCoords(i, d.score);
-        if (i === 0) ctx.moveTo(p.x, p.y);
-        else ctx.lineTo(p.x, p.y);
-      });
-      ctx.closePath();
-
-      // Polygon Fill & Stroke
-      const polyGrad = ctx.createRadialGradient(CENTER_X, CENTER_Y, 20, CENTER_X, CENTER_Y, MAX_RADIUS);
-      polyGrad.addColorStop(0, 'rgba(124, 58, 237, 0.45)');
-      polyGrad.addColorStop(1, 'rgba(245, 158, 11, 0.25)');
-      ctx.fillStyle = polyGrad;
-      ctx.fill();
-
-      ctx.strokeStyle = '#f59e0b';
-      ctx.lineWidth = 2.5;
-      ctx.shadowColor = '#f59e0b';
-      ctx.shadowBlur = 12;
-      ctx.stroke();
-      ctx.shadowBlur = 0; // reset glow
-
-      // 4. Rotating Radar Sweep Beam
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(CENTER_X, CENTER_Y);
-      ctx.arc(CENTER_X, CENTER_Y, MAX_RADIUS * 1.02, sweepAngle - 0.45, sweepAngle);
-      ctx.closePath();
-
-      const sweepGrad = ctx.createLinearGradient(
-        CENTER_X, CENTER_Y,
-        CENTER_X + Math.cos(sweepAngle) * MAX_RADIUS,
-        CENTER_Y + Math.sin(sweepAngle) * MAX_RADIUS
-      );
-      sweepGrad.addColorStop(0, 'rgba(124, 58, 237, 0)');
-      sweepGrad.addColorStop(1, 'rgba(124, 58, 237, 0.45)');
-      ctx.fillStyle = sweepGrad;
-      ctx.fill();
-
-      ctx.restore();
-
-      // 5. Skill Nodes (Pulsing Dots on Points)
-      domains.forEach((d, i) => {
-        const p = getDomainCoords(i, d.score);
-        const isHovered = (i === hoveredDomain || i === activeLegendIdx);
-
-        // Blip animation if sweep line passes node angle
-        const nodeAngle = (i / domains.length) * Math.PI * 2 - Math.PI / 2;
-        const normalizedSweep = (sweepAngle % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
-        const normalizedNode = (nodeAngle % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
-        const angleDiff = Math.abs(normalizedSweep - normalizedNode);
-
-        if (angleDiff < 0.15) {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 16, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(245, 158, 11, 0.6)';
-          ctx.lineWidth = 2;
-          ctx.stroke();
+        if (distance <= hitRadius && distance < closestDistance) {
+          found = index;
+          closestDistance = distance;
         }
-
-        // Node circle
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, isHovered ? 8 : 5.5, 0, Math.PI * 2);
-        ctx.fillStyle = isHovered ? '#f59e0b' : '#9d5cf5';
-        ctx.shadowColor = isHovered ? '#f59e0b' : '#7c3aed';
-        ctx.shadowBlur = isHovered ? 20 : 10;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        // Inner core
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
       });
 
-      sweepAngle += sweepSpeed;
-      requestAnimationFrame(drawRadarHUD);
+      return found;
     }
 
-    drawRadarHUD();
+    function updateDetails(index) {
+      const domain = domains[index];
+      selectedDomain = index;
 
-    // Mouse Interaction for Hovering Radar Nodes
-    canvas.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
-      const mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
+      document.getElementById('detail-code').textContent = `NODE_${String(index + 1).padStart(2, '0')} // SELECTED`;
+      document.getElementById('detail-title').textContent = `${domain.icon} ${domain.name}`;
+      document.getElementById('detail-score').textContent = `${Math.round(domain.score * 100)}%`;
+      document.getElementById('detail-description').textContent = domain.description;
+      document.getElementById('detail-progress-fill').style.width = `${Math.round(domain.score * 100)}%`;
 
-      let found = -1;
-      domains.forEach((d, i) => {
-        const p = getDomainCoords(i, d.score);
-        const dist = Math.hypot(mouseX - p.x, mouseY - p.y);
-        if (dist < 22) found = i;
+      const tagContainer = document.getElementById('detail-tags');
+      tagContainer.innerHTML = domain.tags.map(tag => `<span>${tag}</span>`).join('');
+
+      document.querySelectorAll('.legend-item').forEach((item, itemIndex) => {
+        const active = itemIndex === index;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-pressed', String(active));
       });
+    }
 
-      hoveredDomain = found;
+    function showTooltip(event, index) {
+      const domain = domains[index];
+      const position = getPointerPosition(event);
 
-      if (found !== -1) {
-        const d = domains[found];
-        tooltip.style.display = 'block';
-        tooltip.style.left = `${e.clientX - rect.left + 15}px`;
-        tooltip.style.top = `${e.clientY - rect.top - 20}px`;
-        tooltip.innerHTML = `<strong>${d.icon} ${d.name}</strong><br/>Proficiency: <span style="color:#f59e0b;">${Math.round(d.score*100)}%</span><br/><span style="color:#a89ec4; font-size:0.75rem;">${d.tags}</span>`;
+      radarTooltip.innerHTML = `
+        <strong>${domain.icon} ${domain.name}</strong><br>
+        Proficiency: <span class="tooltip-score">${Math.round(domain.score * 100)}%</span><br>
+        <span class="tooltip-tags">Click the point to view details.</span>
+      `;
 
-        // Highlight matching legend item
-        highlightLegend(found);
+      radarTooltip.style.display = 'block';
+      radarTooltip.style.left = `${position.cssX + 14}px`;
+      radarTooltip.style.top = `${position.cssY - 24}px`;
+    }
+
+    radarCanvas.addEventListener('pointermove', event => {
+      const position = getPointerPosition(event);
+      hoveredDomain = findDomainAtPosition(position);
+
+      if (hoveredDomain >= 0) {
+        radarCanvas.style.cursor = 'pointer';
+        showTooltip(event, hoveredDomain);
       } else {
-        tooltip.style.display = 'none';
+        radarCanvas.style.cursor = 'crosshair';
+        radarTooltip.style.display = 'none';
       }
     });
 
-    canvas.addEventListener('mouseleave', () => {
+    radarCanvas.addEventListener('pointerleave', () => {
       hoveredDomain = -1;
-      tooltip.style.display = 'none';
+      radarCanvas.style.cursor = 'crosshair';
+      radarTooltip.style.display = 'none';
     });
 
-    // Legend Click Handler
-    const legendItems = document.querySelectorAll('.legend-item');
-    function highlightLegend(idx) {
-      legendItems.forEach((item, i) => {
-        if (i === idx) {
-          item.classList.add('active');
-          activeLegendIdx = i;
-        } else {
-          item.classList.remove('active');
-        }
-      });
-    }
+    radarCanvas.addEventListener('click', event => {
+      const position = getPointerPosition(event);
+      const clickedIndex = findDomainAtPosition(position, 30);
 
-    legendItems.forEach(item => {
+      if (clickedIndex >= 0) {
+        updateDetails(clickedIndex);
+        scanPulse[clickedIndex] = 1;
+      }
+    });
+
+    document.querySelectorAll('.legend-item').forEach(item => {
       item.addEventListener('click', () => {
-        const domainIdx = parseInt(item.dataset.domain);
-        highlightLegend(domainIdx);
+        const index = Number(item.dataset.domain);
+        updateDetails(index);
+        scanPulse[index] = 1;
       });
     });
 
-    // Controls Handlers
-    document.getElementById('btn-sweep-normal').addEventListener('click', function() {
-      sweepSpeed = 0.02;
-      document.querySelectorAll('.control-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
+    document.getElementById('btn-sweep-normal').addEventListener('click', function () {
+      sweepSpeed = 0.018;
+      document.getElementById('btn-sweep-normal').classList.add('active');
+      document.getElementById('btn-sweep-fast').classList.remove('active');
     });
 
-    document.getElementById('btn-sweep-fast').addEventListener('click', function() {
-      sweepSpeed = 0.06;
-      document.querySelectorAll('.control-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
+    document.getElementById('btn-sweep-fast').addEventListener('click', function () {
+      sweepSpeed = 0.055;
+      document.getElementById('btn-sweep-fast').classList.add('active');
+      document.getElementById('btn-sweep-normal').classList.remove('active');
     });
 
-    document.getElementById('btn-reset-view').addEventListener('click', function() {
-      sweepAngle = 0;
-      activeLegendIdx = 0;
-      highlightLegend(0);
+    document.getElementById('btn-toggle-grid').addEventListener('click', function () {
+      showGrid = !showGrid;
+      this.classList.toggle('active', showGrid);
+      this.setAttribute('aria-pressed', String(showGrid));
     });
 
-    // Category Filter Tabs Logic
+    document.getElementById('btn-reset-view').addEventListener('click', () => {
+      sweepAngle = -Math.PI / 2;
+      hoveredDomain = -1;
+      scanPulse.fill(0);
+      updateDetails(0);
+      radarTooltip.style.display = 'none';
+    });
+
+    updateDetails(0);
+    radarAnimationId = requestAnimationFrame(drawRadarFrame);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && radarAnimationId) {
+        cancelAnimationFrame(radarAnimationId);
+        radarAnimationId = null;
+      } else if (!document.hidden && !radarAnimationId) {
+        lastFrameTime = performance.now();
+        radarAnimationId = requestAnimationFrame(drawRadarFrame);
+      }
+    });
+
+    // =====================================
+    // CATEGORY FILTERS
+    // =====================================
     const filterTabs = document.querySelectorAll('.filter-tab');
     const skillCards = document.querySelectorAll('.skill-ext-card');
 
     filterTabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        filterTabs.forEach(t => t.classList.remove('active'));
+        filterTabs.forEach(item => item.classList.remove('active'));
         tab.classList.add('active');
+
         const category = tab.dataset.filter;
 
         skillCards.forEach(card => {
-          if (category === 'all' || card.dataset.cat === category) {
-            card.style.display = 'block';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          } else {
-            card.style.display = 'none';
-          }
+          const visible = category === 'all' || card.dataset.cat === category;
+          card.hidden = !visible;
         });
       });
     });
   </script>
-
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Felix Protocol | Cybersecurity & Network Engineer</title>
-  <meta name="description" content="Portfolio of The Felix Protocol — Network Engineer, Customer Experience specialist, IT Practitioner, and Aspiring Purple Team Cybersecurity professional." />
+  <title>Felix Protocol | Cybersecurity & Network Engineer</title>
+  <meta name="description" content="Portfolio of Felix Protocol — Network Engineer, Customer Experience specialist, IT Practitioner, and Aspiring Purple Team Cybersecurity professional." />
   <meta name="keywords" content="cybersecurity, network engineer, IT, purple team, portfolio" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,10 +13,68 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <body>
+  <!-- ================================
+       FELIX PROTOCOL SPLASH SCREEN
+       ================================ -->
+
+       
+  <div id="splash-screen">
+
+    <div class="splash-grid"></div>
+
+    <div class="splash-content">
+
+      <!-- Logo -->
+      <div class="splash-logo">
+        <img src="felix-logo.png" alt="Felix Protocol Logo" class="splash-logo-img" />
+      </div>
+
+      <!-- Logo underline -->
+      <div class="splash-line"></div>
+
+      <!-- Brand -->
+      <div class="splash-brand">
+  
+      </div>
+
+      <div class="splash-subtitle">
+        NETWORK ENGINEER <span>//</span> CYBERSECURITY
+      </div>
+
+      <!-- Loading information -->
+      <div class="splash-loading">
+
+        <div class="loading-status">
+          <span id="loading-message">INITIALIZING NETWORK...</span>
+          <span id="loading-percent">0%</span>
+        </div>
+
+        <div class="loading-bar">
+          <div class="loading-progress" id="loading-progress"></div>
+        </div>
+
+      </div>
+
+      <!-- Small status -->
+      <div class="splash-status">
+        <span class="splash-status-dot"></span>
+        SECURE CONNECTION ESTABLISHED
+      </div>
+
+    </div>
+
+    <!-- Corner decorations -->
+    <div class="splash-corner splash-corner-tl"></div>
+    <div class="splash-corner splash-corner-tr"></div>
+    <div class="splash-corner splash-corner-bl"></div>
+    <div class="splash-corner splash-corner-br"></div>
+
+  </div>
   <!-- Navigation -->
   <nav id="navbar">
     <div class="nav-logo">
-      <span class="logo-bracket">[</span>FP<span class="logo-bracket">]</span>
+      <img src="felix-logo.png" alt="Felix Protocol Logo" class="nav-logo-img" />
     </div>
     <ul class="nav-links">
       <li><a href="#hero" class="nav-link active">Home</a></li>
@@ -38,12 +96,9 @@
   <section id="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="hero-content">
-      <div class="hero-badge">
-        <span class="badge-icon">🛡️</span>
-        <span>Purple Team | Network | IT</span>
-      </div>
+      
       <h1 class="hero-title">
-        <span class="title-line">The Felix</span>
+        <span class="title-line">Felix</span>
         <span class="title-line gradient-text">Protocol</span>
       </h1>
       <p class="hero-subtitle" id="typed-text"></p>
@@ -56,7 +111,7 @@
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-number" data-target="5">0</span><span class="stat-plus">+</span>
+          <span class="stat-number" data-target="8">0</span><span class="stat-plus">+</span>
           <span class="stat-label">Years Experience</span>
         </div>
         <div class="stat-divider"></div>
@@ -66,7 +121,7 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number" data-target="15">0</span><span class="stat-plus">+</span>
+          <span class="stat-number" data-target="8">0</span><span class="stat-plus">+</span>
           <span class="stat-label">Certifications</span>
         </div>
       </div>
@@ -90,7 +145,7 @@
         <div class="about-image-wrapper">
           <div class="about-image-frame">
             <div class="image-glow"></div>
-            <img src="felix_avatar.jpg" alt="The Felix Protocol" class="about-img" id="about-img" / >
+            <img src="felix_avatar.jpg" alt="Felix Protocol" class="about-img" id="about-img" / >
             <div class="image-overlay-corners">
               <span class="corner tl"></span>
               <span class="corner tr"></span>
@@ -98,22 +153,15 @@
               <span class="corner br"></span>
             </div>
           </div>
-          <div class="about-badge-floating">
+          <div class="about-badge-floating">        
             <span>🔐</span> Purple Team
           </div>
         </div>
         <div class="about-text">
-          <p class="about-lead">I am <strong>The Felix Protocol</strong> — a passionate technologist bridging the gap between networks, security, and human experience.</p>
-          <p class="about-desc">With expertise spanning <span class="highlight">Network Engineering</span>, <span class="highlight">Customer Experience</span>, and <span class="highlight">IT Operations</span>, I am actively advancing into the world of <span class="highlight">Purple Team Cybersecurity</span> — where offensive and defensive strategies converge.</p>
-          <p class="about-desc">I believe that technology should be both powerful and secure. My mission is to design, protect, and optimize systems that stand resilient against modern threats.</p>
-          <div class="about-tags">
-            <span class="tag">🌐 Networking</span>
-            <span class="tag">🛡️ Cybersecurity</span>
-            <span class="tag">💡 IT Operations</span>
-            <span class="tag">🤝 Customer Experience</span>
-            <span class="tag">🔍 Threat Analysis</span>
-            <span class="tag">⚔️ Purple Team</span>
-          </div>
+          <p class="about-lead">I am <strong>Felix Protocol</strong> — a passionate technologist bridging the gap between networks, security, and human experience.</p>
+          <p class="about-desc">With expertise spanning <span class="highlight">Network Engineering</span>, <span class="highlight">Customer Experience</span>, and <span class="highlight">IT Operations</span>, I am actively advancing into the world of <span class="highlight">Purple Team Cybersecurity</span> where offensive and defensive strategies converge.</p>
+
+         
           <div class="about-actions">
             <a href="education.html" class="btn btn-primary about-cta-btn">
               <span>Read More</span>
@@ -341,10 +389,10 @@
   <footer id="footer">
     <div class="footer-content">
       <div class="footer-logo">
-        <span class="logo-bracket">[</span>FP<span class="logo-bracket">]</span>
-        <span class="footer-tagline">The Felix Protocol</span>
+        <img src="felix-logo.png" alt="Felix Protocol Logo" class="footer-logo-img" />
+        <span class="footer-tagline">Felix Protocol</span>
       </div>
-      <p class="footer-copy">© 2026 The Felix Protocol. Designed with 💜 & ⚡.</p>
+      <p class="footer-copy">© 2026 Felix Protocol. Designed with 💜 & ⚡.</p>
       <div class="footer-links">
         <a href="#hero">Home</a>
         <a href="#about">About</a>
