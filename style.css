@@ -64,17 +64,21 @@
 }
 
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
+}
+
+section[id] {
+  scroll-margin-top: 110px; /* Fallback for browsers without JS */
 }
 
 body {
   font-family: var(--font-body);
   background-color: var(--bg);
   color: var(--text-primary);
-  overflow-x: hidden;
+  overflow-x: hidden; /* Keep it here only */
   line-height: 1.6;
 }
+
 
 /* ===========================
    SCROLLBAR
@@ -239,9 +243,10 @@ body {
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;      /* Changed from center to flex-start */
   justify-content: center;
   overflow: hidden;
+  padding-top: 14vh;            /* Pushes content down from top */
 }
 
 #hero-canvas {
@@ -255,14 +260,10 @@ body {
 .hero-content {
   position: relative;
   z-index: 2;
-
   width: 100%;
   max-width: none;
-
   padding: 2rem 3.3%;
-
   text-align: left;
-
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -289,9 +290,9 @@ body {
   font-size: clamp(3rem, 8vw, 6.5rem);
   font-weight: 900;
   line-height: 1.05;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;          /* Reduced from 1.5rem */
   letter-spacing: -0.02em;
-   text-align: left;
+  text-align: left;
 }
 
 .title-line {
@@ -307,7 +308,7 @@ body {
   font-size: 1.2rem;
   color: var(--text-secondary);
   min-height: 2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.8rem;        /* Reduced from 2.5rem */
   font-family: var(--font-accent);
   letter-spacing: 0.05em;
   animation: fadeIn 1s ease 0.5s both;
@@ -330,24 +331,25 @@ body {
   gap: 1rem;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin-bottom: 3.2rem;
+  margin-bottom: 2.2rem;        /* Reduced from 3.2rem */
   animation: fadeInUp 0.8s ease 0.6s both;
 }
 
 .hero-stats {
   display: flex;
   align-items: center;
-  justify-content: flex-start
-  gap 2.8rem;
-   margin-top: 0;
-   margin-left: 0;
+  justify-content: flex-start;  /* Fixed: added missing semicolon */
+  gap: 0.6rem;                  /* Fixed: added missing colon */
+  margin-top: 0;
+  margin-left: 0;
   animation: fadeInUp 0.8s ease 0.8s both;
 }
 
 .stat-item {
   text-align: center;
   text-align: center;
-  min-width: 125px;
+  min-width: 90px;
+  padding: 0 0.5rem;
 }
 
 .stat-number {
@@ -374,7 +376,7 @@ body {
 
 .stat-divider {
   width: 1px;
-  height: 50px;
+  height: 35px;
   background: linear-gradient(to bottom, transparent, var(--border), transparent);
 }
 
@@ -1406,11 +1408,23 @@ section {
 /* ===========================
    RESPONSIVE
    =========================== */
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
+  hero-stats {
+    gap: 0.8rem;
+    justify-content: center;   /* Centers stats on small screens */
+    width: 100%;
+  }
+  stat-item {
+    min-width: 85px;
+  }
+   .stat-number {
+    font-size: 2rem;          /* Slightly smaller numbers on mobile */
+  }
+}
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
+
 
 /* ===========================
    SCANLINE OVERLAY (global)
@@ -1627,13 +1641,13 @@ body::after {
   height: 100vh;
   height: 100dvh;
 
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(0, 229, 255, 0.08) 0%,
-      rgba(3, 8, 20, 0.96) 42%,
-      #02050d 100%
-    );
+  background-color: #02050d; /* Solid base - NOW PROTECTED */
+  background-image: radial-gradient( /* Use background-image, not background shorthand */
+    circle at center,
+    rgba(0, 229, 255, 0.08) 0%,
+    rgba(3, 8, 20, 0.96) 42%,
+    #02050d 100%
+  );
 
   display: flex;
   align-items: center;
@@ -1660,7 +1674,12 @@ body::after {
   visibility: hidden;
   pointer-events: none;
 }
-
+/* Prevent scrolling while splash screen is visible */
+body.splash-active {
+  overflow: hidden;
+  height: 100vh;
+  touch-action: none;
+}
 
 /* =========================================================
    CYBER GRID
@@ -2166,7 +2185,11 @@ body::after {
 /* =========================================================
    CORNER HUD ELEMENTS
    ========================================================= */
-
+/* Add this to your existing splash-hidden rule */
+#splash-screen.splash-hidden .splash-corner {
+  opacity: 0 !important;
+  display: none;
+}
 .splash-corner {
 
   position: absolute;
@@ -2174,8 +2197,9 @@ body::after {
   width: 45px;
   height: 45px;
 
-  border-color: rgba(0,229,255,0.45);
-
+  border-color: rgba(0,229,255,0.35);
+  filter: blur(0.3px); /* softens edge artifacts */
+  
   opacity: 0;
 
   animation:
@@ -2304,4 +2328,21 @@ body::after {
 
   }
 
+}
+/* Force hide all splash corners when splash is done */
+body.splash-done .splash-corner,
+#splash-screen.splash-hidden .splash-corner {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+/* Hide body until splash positions page correctly */
+body.splash-active {
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* Show splash itself even when body is hidden */
+body.splash-active #splash-screen {
+  visibility: visible !important;
 }
