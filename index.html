@@ -132,47 +132,73 @@
   </section>
 
   <!-- About Section -->
-  <section id="about">
-    <div class="section-container">
-      <div class="section-header">
-        <span class="section-tag">// Who I Am</span>
-        <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
-      </div>
-      <div class="about-grid">
-        <div class="about-image-wrapper">
-          <div class="about-image-frame">
-            <div class="image-glow"></div>
-            <img src="felix_avatar.jpg" alt="Felix Protocol" class="about-img" id="about-img" / >
-            <div class="image-overlay-corners">
-              <span class="corner tl"></span>
-              <span class="corner tr"></span>
-              <span class="corner bl"></span>
-              <span class="corner br"></span>
-            </div>
-          </div>
-          <div class="about-badge-floating">        
-            <span>🔐</span> Purple Team
+<section id="about">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-tag">// Who I Am</span>
+      <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-image-wrapper">
+        <div class="about-image-frame">
+          <div class="image-glow"></div>
+          <img src="felix_avatar.jpg" alt="Felix Protocol" class="about-img" id="about-img" />
+          <div class="image-overlay-corners">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
           </div>
         </div>
-        <div class="about-text">
-          <p class="about-lead">I am <strong>Felix Protocol</strong> — a passionate technologist bridging the gap between networks, security, and human experience.</p>
-          <p class="about-desc">With expertise spanning <span class="highlight">Network Engineering</span>, <span class="highlight">Customer Experience</span>, and <span class="highlight">IT Operations</span>, I am actively advancing into the world of <span class="highlight">Purple Team Cybersecurity</span> where offensive and defensive strategies converge.</p>
+        <!-- Badge moved here, OUTSIDE image-frame but INSIDE image-wrapper -->
+  <div class="about-badge-floating">
+  <svg width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Shield -->
+    <path d="M50 5 L85 20 L85 50 C85 70 65 88 50 95 C35 88 15 70 15 50 L15 20 Z" fill="#22d3ee"/>
+    <!-- Keyhole circle -->
+    <circle cx="50" cy="42" r="10" fill="white"/>
+    <!-- Keyhole stem -->
+    <rect x="45" y="50" width="10" height="14" rx="3" fill="white"/>
+    <!-- Circuit left -->
+    <line x1="15" y1="55" x2="2" y2="55" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="2" cy="55" r="3" fill="#22d3ee"/>
+    <!-- Circuit left up -->
+    <line x1="15" y1="40" x2="2" y2="28" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="2" cy="28" r="3" fill="#22d3ee"/>
+    <!-- Circuit left down -->
+    <line x1="15" y1="65" x2="2" y2="78" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="2" cy="78" r="3" fill="#22d3ee"/>
+    <!-- Circuit right -->
+    <line x1="85" y1="55" x2="98" y2="55" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="98" cy="55" r="3" fill="#22d3ee"/>
+    <!-- Circuit right up -->
+    <line x1="85" y1="40" x2="98" y2="28" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="98" cy="28" r="3" fill="#22d3ee"/>
+    <!-- Circuit right down -->
+    <line x1="85" y1="65" x2="98" y2="78" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="98" cy="78" r="3" fill="#22d3ee"/>
+  </svg>
+  Purple Team
+</div>
+      </div>
 
-         
-          <div class="about-actions">
-            <a href="education.html" class="btn btn-primary about-cta-btn">
-              <span>Read More</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a href="skills.html" class="btn btn-secondary about-cta-btn">
-              <span>📡 Open Interactive Skill Radar</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-          </div>
+      <div class="about-text">
+        <p class="about-lead">I am <strong>Felix Protocol</strong> — a passionate technologist bridging the gap between networks, security, and human experience.</p>
+        <p class="about-desc">With expertise spanning <span class="highlight">Network Engineering</span>, <span class="highlight">Customer Experience</span>, and <span class="highlight">IT Operations</span>, I am actively advancing into the world of <span class="highlight">Purple Team Cybersecurity</span> where offensive and defensive strategies converge.</p>
+        <div class="about-actions">
+          <a href="education.html" class="btn btn-primary about-cta-btn">
+            <span>Read More</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="skills.html" class="btn btn-secondary about-cta-btn">
+            <span>📡 Open Interactive Skill Radar</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
  
   <!-- Skills Section -->
   <section id="skills">

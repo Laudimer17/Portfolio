@@ -475,10 +475,10 @@ body {
 section {
   padding: 4rem 0;
   position: relative;
-
-  #about {
-  padding-top: 2rem; /* adjust this number until it looks right */
 }
+
+#about {
+  padding-top: 2rem;
 }
 
 .section-container {
@@ -540,6 +540,10 @@ section {
 
 .about-image-wrapper {
   position: relative;
+position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .about-image-frame {
@@ -597,20 +601,30 @@ section {
 .corner.br { bottom: 8px; right: 8px; border-bottom-width: 2px; border-right-width: 2px; }
 
 .about-badge-floating {
-  position: absolute;
-  bottom: -1rem;
-  right: -1rem;
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.75rem 1.25rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0.5rem 0;
+  margin-top: -5.0rem;   /* ← increased */
+  margin-left: 20rem;
   font-family: var(--font-accent);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  box-shadow: 0 8px 32px var(--glow-purple);
+  color: #22d3ee;
   animation: float 3s ease-in-out infinite;
+  white-space: nowrap;
 }
+
+.about-badge-floating svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.7));
+}
+
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
@@ -1382,22 +1396,31 @@ section {
 /* ===========================
    RESPONSIVE
    =========================== */
-@media (max-width: 768px) {
-  hero-stats {
-    gap: 0.8rem;
-    justify-content: center;   /* Centers stats on small screens */
-    width: 100%;
-  }
-  stat-item {
-    min-width: 85px;
-  }
-   .stat-number {
-    font-size: 2rem;          /* Slightly smaller numbers on mobile */
-  }
-}
+@media (max-width: 992px) {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 768px) {
+  .hero-stats {
+    gap: 0.8rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .stat-item {
+    min-width: 85px;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 
 /* ===========================
@@ -2168,8 +2191,20 @@ body.splash-active {
    ========================================================= */
 /* Add this to your existing splash-hidden rule */
 #splash-screen.splash-hidden .splash-corner {
+  visibility: hidden;
+  pointer-events: none;
   opacity: 0 !important;
   display: none;
+
+#splash-screen.splash-hidden * {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+
+
+
 }
 .splash-corner {
 
@@ -2251,6 +2286,25 @@ body.splash-active {
 /* =========================================================
    MOBILE
    ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  #matrix-canvas,
+  #hero-canvas,
+  #skills-canvas,
+  #contact-canvas {
+    display: none !important;
+  }
+}
+
+
 
 @media (max-width: 600px) {
 
@@ -2311,12 +2365,6 @@ body.splash-active {
 
 }
 /* Force hide all splash corners when splash is done */
-body.splash-done .splash-corner,
-#splash-screen.splash-hidden .splash-corner {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
 /* Hide body until splash positions page correctly */
 body.splash-active {
  overflow: hidden; /* only stop scrolling */
@@ -2335,4 +2383,12 @@ body.splash-active {
   width: 100%;
   top: 0;
   left: 0;
+}
+
+#splash-screen.splash-hidden .splash-subtitle,
+#splash-screen.splash-hidden .splash-line,
+#splash-screen.splash-hidden .splash-brand {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
 }
