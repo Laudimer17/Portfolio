@@ -467,54 +467,18 @@ body {
   transform: translateY(-2px);
 }
 
-/* ===========================
-   SCROLL INDICATOR
-   =========================== */
-.scroll-indicator {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  z-index: 2;
-  animation: fadeIn 1.5s ease 1.2s both;
-}
-
-.scroll-mouse {
-  width: 24px;
-  height: 38px;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  padding-top: 6px;
-}
-
-.scroll-wheel {
-  width: 4px;
-  height: 8px;
-  background: var(--primary-light);
-  border-radius: 2px;
-  animation: scroll-wheel 2s infinite;
-}
-
-@keyframes scroll-wheel {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(12px); opacity: 0; }
-}
 
 /* ===========================
    SECTION COMMONS
    =========================== */
+   
 section {
-  padding: 7rem 0;
+  padding: 4rem 0;
   position: relative;
+
+  #about {
+  padding-top: 2rem; /* adjust this number until it looks right */
+}
 }
 
 .section-container {
@@ -559,12 +523,18 @@ section {
    =========================== */
 #about {
   background: var(--bg-surface);
+  padding-top: 0.5rem;    /* Reduced from 3rem — moves text way up */
+  padding-bottom: 3rem;  /* Optional: tighten bottom too */
+}
+
+#about .section-header {
+  margin-bottom: 1rem;   /* Reduced from 2rem — less space below "// Who I Am" */
 }
 
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: 5rem;
+  gap: 3rem;             /* Reduced from 5rem — tighter columns */
   align-items: center;
 }
 
@@ -578,11 +548,15 @@ section {
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--bg-card);
+  max-width: 260px;
+  margin: 0 auto;
+  margin-top: -2.5rem;   /* Add this — pulls picture upward */
 }
+
 
 .about-img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   object-position: top center;
   display: block;
@@ -1633,52 +1607,56 @@ body::after {
    ========================================================= */
 
    
-
 #splash-screen {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100vh;
   height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  overflow: hidden;
+  font-family: 'Orbitron', sans-serif;
+  background: transparent !important;
+}
 
-  background-color: #02050d; /* Solid base - NOW PROTECTED */
-  background-image: radial-gradient( /* Use background-image, not background shorthand */
+
+/* SINGLE black background layer — JS fades this only */
+#splash-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #02050d; /* SOLID BLACK BASE */
+  background-image: radial-gradient(
     circle at center,
     rgba(0, 229, 255, 0.08) 0%,
     rgba(3, 8, 20, 0.96) 42%,
     #02050d 100%
   );
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 999999;
-
-  overflow: hidden;
-
-  font-family: 'Orbitron', sans-serif;
-
   opacity: 1;
-  visibility: visible;
-
-  transition:
-    opacity 0.8s ease,
-    visibility 0.8s ease;
-}
-
-
-/* When splash is finished */
-#splash-screen.splash-hidden {
-  opacity: 0;
-  visibility: hidden;
   pointer-events: none;
 }
-/* Prevent scrolling while splash screen is visible */
+
+/* Keep all splash content above the curtain */
+.splash-content,
+.splash-logo,
+.splash-corner,
+.splash-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.splash-logo-img {
+  position: relative;
+  z-index: 2;
+  will-change: transform;
+}
+
+/* Lock scroll during splash */
 body.splash-active {
   overflow: hidden;
-  height: 100vh;
-  touch-action: none;
 }
 
 /* =========================================================
@@ -1772,7 +1750,9 @@ body.splash-active {
 }
 
 .splash-logo-img {
-
+  position: relative;
+  z-index: 2;
+  will-change: transform;
   width: clamp(180px, 32vw, 320px);
   height: auto;
   display: block;
@@ -1781,6 +1761,7 @@ body.splash-active {
     drop-shadow(0 0 25px rgba(0, 229, 255, 0.7))
     drop-shadow(0 0 50px rgba(139, 92, 246, 0.5));
     transition: transform 0.4s ease;
+    
 }
 
 
@@ -2338,11 +2319,20 @@ body.splash-done .splash-corner,
 }
 /* Hide body until splash positions page correctly */
 body.splash-active {
-  overflow: hidden;
-  visibility: hidden;
+ overflow: hidden; /* only stop scrolling */
 }
 
-/* Show splash itself even when body is hidden */
-body.splash-active #splash-screen {
-  visibility: visible !important;
+/* Lock scrolling on BOTH html and body during splash */
+html:has(body.splash-active),
+body.splash-active {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Extra insurance: freeze body in place */
+body.splash-active {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
 }

@@ -480,7 +480,6 @@ setTimeout(triggerGlitch, 3000);
 //   FELIX PROTOCOL SPLASH SCREEN
 // =====================================
 document.body.classList.add("splash-active");
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const splash     = document.getElementById("splash-screen");
@@ -488,69 +487,64 @@ document.addEventListener("DOMContentLoaded", () => {
   const percent    = document.getElementById("loading-percent");
   const message    = document.getElementById("loading-message");
   const ipStatusEl = document.getElementById('ip-status');
+  const splashBg   = document.querySelector('.splash-bg');
 
-  // ✅ Capture hash FIRST before anything runs
   const intendedHash = window.location.hash || null;
 
   // =====================================
-  // IP / ISP FETCH
+  // IP / ISP FETCH (non-blocking)
   // =====================================
   async function fetchVisitorInfo() {
     if (!ipStatusEl) return;
-    const endpoints = [
-      {
-        url: 'https://api.ipify.org?format=json',
-        name: 'ipify',
-        format: async (d) => {
-          const ipv4 = d.ip;
-          try {
-            const res2 = await fetch(`https://ipapi.co/${ipv4}/json/`);
-            const data2 = await res2.json();
-            const isp     = data2.org           || 'Unknown ISP';
-            const city    = data2.city          || '';
-            const country = data2.country_name  || '';
-            return `✔ SECURE IPv4  |  IP: ${ipv4}  |  ISP: ${isp}  |  ${city}, ${country}`;
-          } catch {
-            return `✔ SECURE IPv4  |  IP: ${ipv4}`;
-          }
-        }
-      }
-    ];
-    for (const endpoint of endpoints) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 3000);
+      const res = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error('Failed');
+      const data = await res.json();
+      const ipv4 = data.ip;
       try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 3000);
-        const response = await fetch(endpoint.url, { signal: controller.signal });
-        clearTimeout(timeout);
-        if (!response.ok) continue;
-        const data = await response.json();
-        const text = await endpoint.format(data);
-        if (ipStatusEl) ipStatusEl.textContent = text;
-        return;
-      } catch (err) {
-        console.warn(`[Felix Protocol] ${endpoint.name} failed:`, err.message);
+        const res2 = await fetch(`https://ipapi.co/${ipv4}/json/`);
+        const d2 = await res2.json();
+        const isp = d2.org || 'Unknown ISP';
+        const city = d2.city || '';
+        const country = d2.country_name || '';
+        ipStatusEl.textContent = `✔ SECURE IPv4  |  IP: ${ipv4}  |  ISP: ${isp}  |  ${city}, ${country}`;
+      } catch {
+        ipStatusEl.textContent = `✔ SECURE IPv4  |  IP: ${ipv4}`;
       }
+    } catch {
+      ipStatusEl.textContent = 'CONNECTION ESTABLISHED';
     }
-    if (ipStatusEl) ipStatusEl.textContent = 'CONNECTION ESTABLISHED';
   }
   fetchVisitorInfo();
 
   // =====================================
-  // ✅ SKIP SPLASH IF ALREADY SEEN
+  // HANDLE HASH FROM OTHER PAGE
   // =====================================
- 
-
-  // First time — mark splash as shown
- 
-
-  if (!splash) return;
+  function handlePageHash() {
+    if (!intendedHash) return;
+    const check = setInterval(() => {
+      if (document.body.classList.contains('splash-done')) {
+        clearInterval(check);
+        const target = document.querySelector(intendedHash);
+        if (!target) return;
+        const navHeight = navbar ? navbar.offsetHeight : 70;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 30;
+        window.scrollTo({ top, behavior: 'instant' });
+      }
+    }, 100);
+    setTimeout(() => clearInterval(check), 10000);
+  }
 
   // =====================================
   // SPLASH LOADING ANIMATION
   // =====================================
-  const LOADING_DURATION = 5000;
+  if (!splash) return;
+
+  const LOADING_DURATION = 7000;
   const READY_DELAY      = 700;
-  const FADE_DURATION    = 900;
 
   const loadingMessages = [
     { progress: 0,   text: "INITIALIZING FELIX PROTOCOL..." },
@@ -582,41 +576,117 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function scrollToSection(hash) {
-    if (!hash) return;
-    const target = document.querySelector(hash);
-    if (!target) return;
-    const navHeight = navbar ? navbar.offsetHeight : 70;
-    const top = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 30;
-    window.scrollTo({ top, behavior: 'smooth' });
+  function hideSplash() {
+    if (!splash) return;
+    splash.classList.add("splash-hidden");
+    setTimeout(() => {
+      if (splash) splash.style.display = "none";
+      document.body.classList.remove("splash-active");
+      document.body.classList.add("splash-done");
+      handlePageHash();
+    }, 500);
   }
 
-  function hideSplash() {
-  splash.classList.add("splash-hidden");
-  setTimeout(() => {
-    splash.style.display = "none";
-    document.body.classList.remove("splash-active");
-    document.body.classList.add("splash-done");
+  /*
+   * -----------------------------------------
+   * LOGO MORPH TO NAVBAR — page reveals at landing
+   * -----------------------------------------
+   */
+ function transitionLogoAndHide() {
+  const splashLogoImg = document.querySelector('.splash-logo-img');
+  const navLogoImg    = document.querySelector('.nav-logo-img');
+  const splash        = document.getElementById('splash-screen');
+  const curtain       = document.getElementById('splash-curtain');
 
-    // ✅ If there's a target section, jump there INSTANTLY before revealing
-    if (intendedHash) {
-      const target = document.querySelector(intendedHash);
-      if (target) {
-        const navHeight = navbar ? navbar.offsetHeight : 70;
-        const top = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 30;
+  if (!splashLogoImg || !navLogoImg || !splash) {
+    hideSplash();
+    return;
+  }
 
-        // Jump instantly (no smooth scroll) so user never sees the top
-        window.scrollTo({ top, behavior: 'instant' });
+  // Fade out loading elements
+  document.querySelectorAll(
+    '.splash-loading, .splash-subtitle, .splash-line, .splash-status, .splash-brand, .splash-grid, .splash-corner'
+  ).forEach(el => {
+    if (el) {
+      el.style.transition = 'opacity 0.4s ease';
+      el.style.opacity = '0';
+    }
+  });
 
-        // Then reveal the page already in position
-        setTimeout(() => {
-          document.body.style.visibility = 'visible';
-        }, 50);
+  // Measure positions
+  const splashRect = splashLogoImg.getBoundingClientRect();
+  const navRect    = navLogoImg.getBoundingClientRect();
+
+  const deltaX = (navRect.left + navRect.width / 2) - (splashRect.left + splashRect.width / 2);
+  const deltaY = (navRect.top + navRect.height / 2) - (splashRect.top + splashRect.height / 2);
+  const scale  = navRect.width / splashRect.width;
+
+  const duration  = 1200;
+  const startTime = performance.now();
+
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  function finish() {
+    requestAnimationFrame(() => {
+      if (splash) {
+        splash.style.display = 'none';
+        document.body.classList.remove('splash-active');
+        document.body.classList.add('splash-done');
       }
+      splashLogoImg.style.transform = '';
+      if (curtain) curtain.style.opacity = '';
+      handlePageHash();
+    });
+  }
+
+
+
+
+
+
+  function frame(now) {
+    const elapsed     = now - startTime;
+    const rawProgress = Math.min(elapsed / duration, 1);
+    const p           = easeOutExpo(rawProgress);
+
+
+    const currentX = deltaX * p;
+    const currentY = deltaY * p;
+    const currentScale = 1 + (scale - 1) * p;
+
+
+    // Fly logo
+    splashLogoImg.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(${currentScale})`;
+    /* 
+    /* 
+     * CURTAIN FADE:
+     * 0% - 50%   -> fully black (page completely hidden)
+     * 50% - 100% -> smoothly clears as logo nears navbar
+     */
+
+
+
+   if (curtain) {
+      let bgOpacity = 1;
+      if (p > 0.5) {
+        const t = (p - 0.5) / 0.5; // 0 → 1 during second half
+        bgOpacity = 1 - (t * t);    // ease-in: stays dark longer, then clears
+      }
+      curtain.style.opacity = String(Math.max(0, bgOpacity));
     }
 
-  }, FADE_DURATION);
+    if (rawProgress < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      finish();
+    }
+  }
+
+  requestAnimationFrame(frame);
 }
+
 
   function animateLoading(currentTime) {
     if (!startTime) startTime = currentTime;
@@ -624,12 +694,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const progressRatio = Math.min(elapsed / LOADING_DURATION, 1);
     const value         = Math.min(easeInOut(progressRatio) * 100, 100);
     updateProgress(value);
+
     if (progressRatio < 1) {
       animationFrame = requestAnimationFrame(animateLoading);
       return;
     }
+
     updateProgress(100);
-    setTimeout(() => hideSplash(), READY_DELAY);
+    setTimeout(() => transitionLogoAndHide(), READY_DELAY);
   }
 
   updateProgress(0);
