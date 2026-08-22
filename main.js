@@ -690,3 +690,128 @@ document.addEventListener("DOMContentLoaded", () => {
   animationFrame = requestAnimationFrame(animateLoading);
 
 });
+
+// =====================================
+//   ABOUT SECTION — CIRCUIT BOARD CANVAS
+// =====================================
+(function initAboutCanvas() {
+  const canvas = document.getElementById('about-canvas');
+  if (!canvas) return;
+
+  const parent = canvas.parentElement;
+  canvas.style.display = 'none';
+
+  const c2d = document.createElement('canvas');
+  c2d.style.cssText = `position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.5;`;
+  parent.appendChild(c2d);
+
+  function resize() {
+    c2d.width = parent.offsetWidth;
+    c2d.height = parent.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const ctx = c2d.getContext('2d');
+  const TRACES = [];
+
+  function generateTraces() {
+    TRACES.length = 0;
+    const W = c2d.width, H = c2d.height, GRID = 60;
+    for (let i = 0; i < 35; i++) {
+      TRACES.push({
+        x: Math.floor(Math.random() * (W / GRID)) * GRID,
+        y: Math.floor(Math.random() * (H / GRID)) * GRID,
+        len: Math.floor(Math.random() * 5 + 2),
+        dir: Math.random() < 0.5 ? 'H' : 'V',
+        progress: 0,
+        speed: Math.random() * 0.012 + 0.005,
+        color: Math.random() < 0.2 ? '#60a5fa' : '#22d3ee'
+      });
+    }
+  }
+  generateTraces();
+
+  const DOTS = [];
+  function generateDots() {
+    DOTS.length = 0;
+    const W = c2d.width, H = c2d.height, GRID = 60;
+    for (let x = GRID; x < W - GRID; x += GRID)
+      for (let y = GRID; y < H - GRID; y += GRID)
+        if (Math.random() < 0.3)
+          DOTS.push({ x, y, pulse: Math.random() * Math.PI * 2, color: Math.random() < 0.15 ? '#60a5fa' : '#67e8f9' });
+  }
+  generateDots();
+
+  let animT = 0;
+  function drawCircuit() {
+    ctx.clearRect(0, 0, c2d.width, c2d.height);
+    animT += 0.016;
+    const GRID = 60;
+
+    TRACES.forEach(tr => {
+      tr.progress = Math.min(tr.progress + tr.speed, 1);
+      const endX = tr.dir === 'H' ? tr.x + tr.len * GRID : tr.x;
+      const endY = tr.dir === 'V' ? tr.y + tr.len * GRID : tr.y;
+      const cx = tr.x + (endX - tr.x) * tr.progress;
+      const cy = tr.y + (endY - tr.y) * tr.progress;
+
+      ctx.beginPath(); ctx.moveTo(tr.x, tr.y); ctx.lineTo(cx, cy);
+      ctx.strokeStyle = tr.color; ctx.lineWidth = 1.5;
+      ctx.globalAlpha = 0.35; ctx.stroke(); ctx.globalAlpha = 1;
+
+      if (tr.progress >= 1) {
+        tr.x = Math.floor(Math.random() * (c2d.width / GRID)) * GRID;
+        tr.y = Math.floor(Math.random() * (c2d.height / GRID)) * GRID;
+        tr.len = Math.floor(Math.random() * 5 + 2);
+        tr.dir = Math.random() < 0.5 ? 'H' : 'V';
+        tr.progress = 0;
+        tr.color = Math.random() < 0.2 ? '#3b82f6' : '#22d3ee';
+      }
+
+      ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = tr.color; ctx.globalAlpha = 0.9;
+      ctx.fill(); ctx.globalAlpha = 1;
+    });
+
+    DOTS.forEach(d => {
+      const pulse = 0.5 + Math.abs(Math.sin(animT * 2 + d.pulse)) * 0.5;
+      ctx.beginPath(); ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = d.color; ctx.globalAlpha = pulse * 0.6;
+      ctx.fill(); ctx.globalAlpha = 1;
+    });
+
+    requestAnimationFrame(drawCircuit);
+  }
+  drawCircuit();
+
+  window.addEventListener('resize', () => {
+    resize();
+    generateTraces();
+    generateDots();
+  });
+
+function goToSlide(index) {
+  currentIndex = index;
+  
+  // ✅ Get actual slide width including gap
+  const slideWidth = slides[0].getBoundingClientRect().width;
+  const gap = parseFloat(getComputedStyle(carousel).gap) || 24;
+  
+  carousel.style.transform = `translateX(-${(slideWidth + gap) * currentIndex}px)`;
+  
+  document.querySelectorAll('.cert-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentIndex);
+  });
+}
+
+
+
+
+
+
+
+
+
+
+})();

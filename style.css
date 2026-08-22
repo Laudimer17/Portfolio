@@ -522,9 +522,17 @@ section {
    ABOUT SECTION
    =========================== */
 #about {
-  background: var(--bg-surface);
+  background: var(--bg);
+  overflow: hidden;
+  position: relative;
   padding-top: 0.5rem;    /* Reduced from 3rem — moves text way up */
   padding-bottom: 3rem;  /* Optional: tighten bottom too */
+
+  #about-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+}
 }
 
 #about .section-header {
@@ -609,20 +617,20 @@ position: relative;
   border: none;
   box-shadow: none;
   padding: 0.5rem 0;
-  margin-top: -5.0rem;   /* ← increased */
-  margin-left: 20rem;
+  margin-top: -6rem;
+  margin-left: 16rem;
   font-family: var(--font-accent);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: #22d3ee;
+  color: #0891b2;   /* ← matches Read More button color */
   animation: float 3s ease-in-out infinite;
   white-space: nowrap;
 }
 
 .about-badge-floating svg {
   flex-shrink: 0;
-  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.7));
+  filter: drop-shadow(0 0 10px rgba(8, 145, 178, 0.7));  /* ← blue glow */
 }
 
 
@@ -658,6 +666,7 @@ position: relative;
   gap: 1rem;
   align-items: center;
   justify-content: flex-start;
+   margin-bottom: 0.5rem;
 }
   
 .about-cta-btn {
@@ -671,7 +680,7 @@ position: relative;
 }
   
 .education-hero {
-  padding: 8rem 0 4rem;
+  padding: 6rem 0 2rem;
 }
   
 .education-intro {
@@ -679,7 +688,7 @@ position: relative;
   font-size: 1.05rem;
   line-height: 1.8;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+   margin-bottom: 0.5rem;
 }
  
 .education-hero-media {
@@ -2392,3 +2401,182 @@ body.splash-active {
   visibility: hidden;
   transition: opacity 0.3s ease;
 }
+
+/* ===========================
+   CERTIFICATION CAROUSEL
+   =========================== */
+
+.cert-carousel-wrapper {
+  --gap: 1rem;
+  --visible: 3;
+
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;   /* identical value = guaranteed equal margins */
+  box-sizing: border-box;
+}
+
+.cert-carousel {
+  display: flex;
+  gap: var(--gap);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+  width: 100%;
+  padding: 0;  /* no padding here — wrapper handles it */
+}
+
+.cert-carousel.no-transition {
+  transition: none !important;
+}
+
+/* ✅ FIXED SLIDE — height now works */
+
+.cert-slide {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: calc((100% - ((var(--visible) - 1) * var(--gap))) / var(--visible));
+  height: 160px;
+  display: flex;
+  
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  background: rgba(34, 211, 238, 0.05);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 2.5rem;
+  transition: all 0.35s ease;
+}
+
+.cert-slide:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 35px rgba(34, 211, 238, 0.2);
+  transform: translateY(-6px) scale(1.015);
+}
+
+.cert-slide-badge {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+}
+
+.cert-slide-badge svg {
+  width: 56px;
+  height: 56px;
+}
+
+.cert-slide-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cert-slide-info h4 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+
+.cert-slide-info span {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-family: var(--font-accent);
+  line-height: 1.6;
+}
+
+.cert-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.cert-carousel-btn {
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid var(--border);
+  color: var(--primary-light);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.cert-carousel-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+}
+
+.cert-carousel-dots {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cert-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.cert-dot.active {
+  background: var(--primary-light);
+  transform: scale(1.4);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .cert-carousel-wrapper {
+    --visible: 2;
+  }
+
+  .cert-slide {
+    height: 180px;
+    padding: 1.75rem 2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .cert-carousel-wrapper {
+    --visible: 1;
+  }
+
+  .cert-slide {
+    height: 160px;
+    padding: 1.5rem;
+  }
+}
+
+
+
+
+

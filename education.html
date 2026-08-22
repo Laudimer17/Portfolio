@@ -10,10 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body class="education-page">
   <nav id="navbar" class="scrolled">
     <a href="index.html" class="nav-logo" style="text-decoration: none;">
-      <span class="logo-bracket">[</span>FP<span class="logo-bracket">]</span>
+      <img src="felix-logo.png" alt="Felix Protocol Logo" class="nav-logo-img" />
     </a>
     <ul class="nav-links">
       <li><a href="index.html" class="nav-link">Home</a></li>
@@ -34,49 +35,407 @@
         <span class="section-tag">// Qualifications</span>
         <h1 class="section-title">Education & <span class="gradient-text">Certifications</span></h1>
         <p class="education-intro">A snapshot of my academic foundation and professional credentials that support my growth across networking, cybersecurity, and IT operations.</p>
-        <div class="education-hero-media">
-          <img src="assets/education-logo-transparent.png" alt="Education and certifications logo" class="education-logo-image education-logo-white-bg" />
-          <div class="education-logo-row">
-            <div class="education-logo-badge education-logo-badge--inside">
-              <img src="assets/certification-4.png" alt="Certification logo inside badge" />
-            </div>
-          </div>
-        </div>
+       
         <div class="about-actions">
-          <a href="index.html" class="btn btn-secondary about-cta-btn">← Back to Home</a>
-          <a href="skills.html" class="btn btn-primary about-cta-btn">Explore Skills</a>
-        </div>
+
+<div class="about-actions">
+  <a href="index.html" class="btn btn-secondary about-cta-btn">← Back to Home</a>
+  <a href="skills.html" class="btn btn-primary about-cta-btn">Explore Skills</a>
+</div>
+
+<!-- ✅ ADD THIS CAROUSEL BELOW -->
+<div class="cert-carousel-wrapper">
+  <div class="cert-carousel" id="cert-carousel">
+
+    <!-- CCNA Cisco -->
+    <div class="cert-slide">
+      <div class="cert-slide-badge" style="background: linear-gradient(135deg, #1ba0d7, #0d5fa6);">
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+          <rect x="10" y="28" width="80" height="12" rx="6" fill="white"/>
+          <rect x="10" y="48" width="80" height="12" rx="6" fill="white"/>
+          <rect x="10" y="68" width="80" height="12" rx="6" fill="white"/>
+          <rect x="25" y="16" width="50" height="8" rx="4" fill="white" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="cert-slide-info">
+        <h4>CCNA</h4>
+        <span>Cisco Certified Network Associate</span>
+      </div>
+    </div>
+
+    <!-- CC ISC2 -->
+    <div class="cert-slide">
+      <div class="cert-slide-badge" style="background: linear-gradient(135deg, #2ecc71, #1a8a4a);">
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+          <path d="M50 10 L85 28 L85 55 C85 73 65 88 50 95 C35 88 15 73 15 55 L15 28 Z" fill="white" opacity="0.9"/>
+          <circle cx="50" cy="52" r="12" fill="#1a8a4a"/>
+          <path d="M43 52 L48 57 L58 46" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="cert-slide-info">
+        <h4>CC</h4>
+        <span>Certified in Cybersecurity — ISC²</span>
+      </div>
+    </div>
+
+    <!-- CompTIA Sec+ -->
+    <div class="cert-slide">
+      <div class="cert-slide-badge" style="background: linear-gradient(135deg, #e74c3c, #8e1c1c);">
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+          <polygon points="50,10 90,35 90,75 50,95 10,75 10,35" fill="white" opacity="0.15"/>
+          <polygon points="50,10 90,35 90,75 50,95 10,75 10,35" stroke="white" stroke-width="5" fill="none"/>
+          <text x="50" y="62" text-anchor="middle" fill="white" font-size="32" font-weight="bold" font-family="Arial">+</text>
+        </svg>
+      </div>
+      <div class="cert-slide-info">
+        <h4>Security+ 701</h4>
+        <span>CompTIA Security Plus</span>
+      </div>
+    </div>
+
+    <!-- STE -->
+    <div class="cert-slide">
+      <div class="cert-slide-badge" style="background: linear-gradient(135deg, #9b59b6, #5b2c8d);">
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+          <path d="M50 15 L90 38 L75 38 L75 75 L25 75 L25 38 L10 38 Z" fill="white" opacity="0.9"/>
+          <rect x="38" y="55" width="24" height="20" rx="2" fill="#5b2c8d"/>
+          <rect x="30" y="42" width="40" height="10" rx="2" fill="#5b2c8d" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="cert-slide-info">
+        <h4>STE</h4>
+        <span>Studies in Technology and Education</span>
+      </div>
+    </div>
+
+    <!-- PLDT -->
+    <div class="cert-slide">
+      <div class="cert-slide-badge" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="35" stroke="white" stroke-width="6" fill="none"/>
+          <circle cx="50" cy="50" r="18" fill="white" opacity="0.9"/>
+          <circle cx="50" cy="50" r="8" fill="#c0392b"/>
+          <line x1="50" y1="15" x2="50" y2="85" stroke="white" stroke-width="3" opacity="0.5"/>
+          <line x1="15" y1="50" x2="85" y2="50" stroke="white" stroke-width="3" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="cert-slide-info">
+        <h4>PLDT Inc.</h4>
+        <span>Network Operations & Telecommunications</span>
+      </div>
+    </div>
+
+    <!-- CSU -->
+    <div class="cert-slide">
+      <div class="cert-slide-badge" style="background: linear-gradient(135deg, #27ae60, #1a6b3c);">
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="40" r="18" stroke="white" stroke-width="5" fill="none"/>
+          <path d="M20 75 Q50 55 80 75" stroke="white" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="50" cy="40" r="7" fill="white" opacity="0.9"/>
+          <rect x="46" y="58" width="8" height="16" rx="2" fill="white" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="cert-slide-info">
+        <h4>CSU</h4>
+        <span>Cagayan State University — MSIT</span>
+      </div>
+    </div>
+
+    <!-- UCV -->
+    <div class="cert-slide">
+      <div class="cert-slide-badge" style="background: linear-gradient(135deg, #2980b9, #1a5276);">
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+          <path d="M50 15 L90 38 L75 38 L75 75 L25 75 L25 38 L10 38 Z" fill="white" opacity="0.9"/>
+          <rect x="38" y="55" width="24" height="20" rx="2" fill="#1a5276"/>
+          <rect x="30" y="42" width="40" height="10" rx="2" fill="#1a5276" opacity="0.5"/>
+          <circle cx="50" cy="28" r="6" fill="#1a5276" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="cert-slide-info">
+        <h4>UCV</h4>
+        <span>University of Cagayan Valley — BSCpE</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Carousel Controls -->
+  <div class="cert-carousel-controls">
+    
+    <div class="cert-carousel-dots" id="cert-dots"></div>
+    
+  </div>
+</div>
+
+
+
       </div>
     </section>
 
-    <section>
+    <!-- ✅ EDUCATION GRID WITH CERTIFICATIONS -->
+    <section style="padding: 4rem 0;">
       <div class="section-container">
         <div class="education-grid">
+
+          <!-- RIGHT — Certifications & Affiliations -->
           <div class="education-card">
-            <h3>Education Attainment</h3>
-            <ul class="education-list">
-              <li>
-                <strong>Master of Science in Information Technology (MSIT)</strong>
-                <span>Built a strong foundation in systems administration, networking fundamentals, and modern IT practices.</span>
-              </li>
-              <li>
-                <strong>Bachelor of Science in Computer Engineering (BSCpE) Major in Networking</strong>
-                <span>Developed a strong technical base in computer systems, networking principles, and engineering problem-solving.</span>
-              </li>
-              <li>
-                <strong>Specialized Training in Network & Security Operations</strong>
-                <span>Focused studies in secure infrastructure, incident response, and practical threat awareness.</span>
-              </li>
-              <li>
-                <strong>Continuous Professional Development</strong>
-                <span>Committed to expanding expertise through hands-on labs, certifications, and real-world project work.</span>
-              </li>
-            </ul>
+            <h3>🏆 Certifications & Affiliations</h3>
+            <div class="cert-grid">
+
+              <!-- CCNA Cisco -->
+              <div class="cert-item">
+                <div class="cert-badges">
+                  <div class="cert-badge" style="background: linear-gradient(135deg, #1ba0d7, #0d5fa6);">
+                    <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+                      <rect x="10" y="28" width="80" height="12" rx="6" fill="white"/>
+                      <rect x="10" y="48" width="80" height="12" rx="6" fill="white"/>
+                      <rect x="10" y="68" width="80" height="12" rx="6" fill="white"/>
+                      <rect x="25" y="16" width="50" height="8" rx="4" fill="white" opacity="0.6"/>
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h4>CCNA — Cisco Certified Network Associate</h4>
+                  <p>Routing, switching, network fundamentals, and enterprise infrastructure.</p>
+                  <span class="cert-pill">Cisco</span>
+                </div>
+              </div>
+
+              <!-- CC ISC2 -->
+              <div class="cert-item">
+                <div class="cert-badges">
+                  <div class="cert-badge" style="background: linear-gradient(135deg, #2ecc71, #1a8a4a);">
+                    <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+                      <path d="M50 10 L85 28 L85 55 C85 73 65 88 50 95 C35 88 15 73 15 55 L15 28 Z" fill="white" opacity="0.9"/>
+                      <circle cx="50" cy="52" r="12" fill="#1a8a4a"/>
+                      <path d="M43 52 L48 57 L58 46" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h4>CC — Certified in Cybersecurity (ISC²)</h4>
+                  <p>Security principles, business continuity, access controls, and network security.</p>
+                  <span class="cert-pill">ISC²</span>
+                </div>
+              </div>
+
+              <!-- CompTIA Sec+ 701 -->
+              <div class="cert-item">
+                <div class="cert-badges">
+                  <div class="cert-badge" style="background: linear-gradient(135deg, #e74c3c, #8e1c1c);">
+                    <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+                      <polygon points="50,10 90,35 90,75 50,95 10,75 10,35" fill="white" opacity="0.15"/>
+                      <polygon points="50,10 90,35 90,75 50,95 10,75 10,35" stroke="white" stroke-width="5" fill="none"/>
+                      <text x="50" y="60" text-anchor="middle" fill="white" font-size="30" font-weight="bold" font-family="Arial">+</text>
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h4>CompTIA Security+ 701</h4>
+                  <p>Threat analysis, cryptography, identity management, and security operations.</p>
+                  <span class="cert-pill">CompTIA</span>
+                </div>
+              </div>
+
+              <!-- Studies in Technology and Education -->
+              <div class="cert-item">
+                <div class="cert-badges">
+                  <div class="cert-badge" style="background: linear-gradient(135deg, #9b59b6, #5b2c8d);">
+                    <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+                      <path d="M50 15 L90 38 L75 38 L75 75 L25 75 L25 38 L10 38 Z" fill="white" opacity="0.9"/>
+                      <rect x="38" y="55" width="24" height="20" rx="2" fill="#5b2c8d"/>
+                      <rect x="30" y="42" width="40" height="10" rx="2" fill="#5b2c8d" opacity="0.5"/>
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h4>Studies in Technology and Education</h4>
+                  <p>Applied technology integration, digital learning, and educational systems.</p>
+                  <span class="cert-pill">STE</span>
+                </div>
+              </div>
+
+              <!-- PLDT Inc. -->
+              <div class="cert-item">
+                <div class="cert-badges">
+                  <div class="cert-badge" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+                      <circle cx="50" cy="50" r="35" stroke="white" stroke-width="6" fill="none"/>
+                      <circle cx="50" cy="50" r="18" fill="white" opacity="0.9"/>
+                      <circle cx="50" cy="50" r="8" fill="#c0392b"/>
+                      <line x1="50" y1="15" x2="50" y2="85" stroke="white" stroke-width="3" opacity="0.5"/>
+                      <line x1="15" y1="50" x2="85" y2="50" stroke="white" stroke-width="3" opacity="0.5"/>
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h4>PLDT Inc. — Network Operations</h4>
+                  <p>Telecommunications infrastructure, broadband operations, and network services.</p>
+                  <span class="cert-pill">PLDT</span>
+                </div>
+              </div>
+
+              <!-- Cagayan State University -->
+            <!-- Cagayan State University — MSIT -->
+<div class="cert-item">
+  <div class="cert-badges">
+    <div class="cert-badge" style="background: linear-gradient(135deg, #27ae60, #1a6b3c);">
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="40" r="18" stroke="white" stroke-width="5" fill="none"/>
+        <path d="M20 75 Q50 55 80 75" stroke="white" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <circle cx="50" cy="40" r="7" fill="white" opacity="0.9"/>
+        <rect x="46" y="58" width="8" height="16" rx="2" fill="white" opacity="0.7"/>
+      </svg>
+    </div>
+  </div>
+  <div>
+    <h4>Cagayan State University</h4>
+    <p>Master of Science in Information Technology (MSIT).</p>
+    <span class="cert-pill">CSU</span>
+  </div>
+</div>
+
+<!-- University of Cagayan Valley — BSCpE -->
+<div class="cert-item">
+  <div class="cert-badges">
+    <div class="cert-badge" style="background: linear-gradient(135deg, #2980b9, #1a5276);">
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <path d="M50 15 L90 38 L75 38 L75 75 L25 75 L25 38 L10 38 Z" fill="white" opacity="0.9"/>
+        <rect x="38" y="55" width="24" height="20" rx="2" fill="#1a5276"/>
+        <rect x="30" y="42" width="40" height="10" rx="2" fill="#1a5276" opacity="0.5"/>
+        <circle cx="50" cy="28" r="6" fill="#1a5276" opacity="0.7"/>
+      </svg>
+    </div>
+  </div>
+  <div>
+    <h4>University of Cagayan Valley</h4>
+    <p>Bachelor of Science in Computer Engineering (BSCpE) Major in Networking.</p>
+    <span class="cert-pill">UCV</span>
+  </div>
+</div>
+
+            </div>
           </div>
 
         </div>
       </div>
     </section>
   </main>
+
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="felix-logo.png" alt="Felix Protocol Logo" class="footer-logo-img" />
+        <span class="footer-tagline">Felix Protocol</span>
+      </div>
+      <p class="footer-copy">© 2026 Felix Protocol. Designed with 💜 & ⚡.</p>
+      <div class="footer-links">
+        <a href="index.html#hero">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="skills.html">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const carousel  = document.getElementById('cert-carousel');
+  const dotsBox   = document.getElementById('cert-dots');
+  if (!carousel || !dotsBox) return;
+
+  /* ========== 1. CLONE SLIDES FOR INFINITE LOOP ========== */
+  const originals = Array.from(carousel.children);
+  const total     = originals.length;
+  if (total === 0) return;
+
+  originals.slice().reverse().forEach(node => {
+    carousel.insertBefore(node.cloneNode(true), carousel.firstElementChild);
+  });
+  originals.forEach(node => {
+    carousel.appendChild(node.cloneNode(true));
+  });
+
+  const slides             = carousel.querySelectorAll('.cert-slide');
+  const transitionDuration = 800; // must match CSS
+  let currentVisualIndex   = total;
+  let autoPlayTimer        = null;
+
+  /* ========== 2. BUILD DOTS ========== */
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'cert-dot';
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => {
+      const currentReal = ((currentVisualIndex % total) + total) % total;
+      let diff = i - currentReal;
+      if (diff < 0) diff += total;
+      goToSlide(currentVisualIndex + diff);
+      resetAutoPlay();
+    });
+    dotsBox.appendChild(dot);
+  }
+
+  const dots = dotsBox.querySelectorAll('.cert-dot');
+
+  /* ========== 3. CAROUSEL LOGIC ========== */
+  function updateCarousel(skipTransition = false) {
+    if (skipTransition) carousel.classList.add('no-transition');
+
+    const slideWidth = slides[0].offsetWidth;
+    const gap        = parseInt(window.getComputedStyle(carousel).gap) || 0;
+    const moveX      = (slideWidth + gap) * currentVisualIndex;
+
+    /* translate3d forces GPU compositing = smoother */
+    carousel.style.transform = `translate3d(-${moveX}px, 0, 0)`;
+
+    const realIndex = ((currentVisualIndex % total) + total) % total;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === realIndex));
+
+    if (skipTransition) {
+      carousel.offsetHeight; // force reflow
+      carousel.classList.remove('no-transition');
+    }
+  }
+
+  function goToSlide(index) {
+    currentVisualIndex = index;
+    updateCarousel();
+  }
+
+  function nextSlide() {
+    goToSlide(currentVisualIndex + 1);
+  }
+
+  function startAutoPlay() {
+    autoPlayTimer = setInterval(nextSlide, 4500); /* slower autoplay = smoother feel */
+  }
+
+  function resetAutoPlay() {
+    clearInterval(autoPlayTimer);
+    startAutoPlay();
+  }
+
+  /* ========== 4. SNAP WHEN HITTING CLONE ZONES ========== */
+  carousel.addEventListener('transitionend', () => {
+    let snapped = false;
+
+    if (currentVisualIndex >= total * 2) {
+      currentVisualIndex -= total;
+      snapped = true;
+    } else if (currentVisualIndex < total) {
+      currentVisualIndex += total;
+      snapped = true;
+    }
+
+    if (snapped) updateCarousel(true);
+  });
+
+  /* ========== 5. INIT ========== */
+  window.addEventListener('resize', () => updateCarousel(true));
+  updateCarousel(true);
+  startAutoPlay();
+});
+</script>
 </body>
 </html>
